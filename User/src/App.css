@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+.top_root{
+        @apply max-w-[100vw] max-h-[100vh]
+}
+
+.temp{
+      @apply  bg-green-500
+}
+.header_main{
+      @apply  bg-gray-100  h-[50px] border-white border-b-gray-400 border-2 pb-[4px] fixed w-[100vw]
+      /* @apply  bg-gray-100  h-[50px] border-white border-b-gray-400 border-2 pb-[4px] fixed w-[100vw] */
+}
+
+.header{
+      @apply  bg-amber-800
+}
+
+.header_flex_row{
+      @apply   flex flex-row justify-around h-[50px] 
+}
+
+.header1{
+      @apply w-[10vw]
+}
+
+.header2{
+      @apply w-[60vw]  h-[100%] justify-evenly  flex flex-row  p-[8px]
+}
+
+.header3{
+      @apply  w-[25vw]  content-center gap-10 p-[6px]
+}
+
+.center {
+       @apply content-center  items-center justify-center
+}
+
+.header_button{
+         @apply   p-[1px] pl-2 pr-2 rounded-lg text-gray-900 text-[18px] border-2 border-gray-400 hover:border-cyan-300 hover:text-gray-700  active:bg-gray-600 active:text-white active:border-blue-600
+}
+
+
+
+ /*home page */ /*home page */ /*home page */
+
+ .home_main{
+         @apply   flex flex-row flex-wrap justify-around p-[50px]  bg-white py-[70px]
+} 
+
+
+
+.card_main{
+        @apply  w-[300px] p-[10px] h-[500px] m-[25px] bg-gray-100 shadow-md border-2 border-gray-300 hover:border-cyan-300  hover:bg-blue-50 
+}
+
+.cart_product{
+        @apply text-3xl mt-[5px] mb-[10px] text-center overflow-hidden h-[75px]
+}
+
+.cart_price{
+        @apply text-3xl w-full  text-center font-bold
+}
+
+.cart_discount{
+        @apply text-2xl line-through pl-[10px] pr-[20px] font-medium text-gray-500
+}
+
+.rounded{
+       @apply   rounded-xl
+}
+
+.add_cart{ 
+        @apply w-[40%] bg-red-400  p-1 border-2 rounded-md text-amber-50 hover:bg-red-500 hover:border-cyan-400 active:text-black transition-all font-semibold
+}
+
+.remove_cart{ 
+        @apply w-[40%] bg-green-400  p-1 border-2 rounded-md text-amber-50 hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold
+}
+
+
+.cart{ 
+        @apply w-[60%] bg-yellow-300 rounded-[4px] p-1 font-semibold hover:bg-yellow-400
+}
+
+.cartdetail{ 
+        @apply w-[100%] bg-yellow-300 rounded-[4px] p-1
+}
+
+
+.cart_parent{ 
+        @apply flex  flex-row gap-2  text-center m-[15px] mb-[5px]
+}
+
+
+
+
+/* Detail page *//* Detail page *//* Detail page *//* Detail page *//* Detail page */
+
+ .detail_main{
+         @apply   flex flex-row flex-wrap justify-around p-[30px]  pt-[20px] 
+} 
+
+.detail_top{ 
+        @apply w-[50%] text-center  
+}
+
+.detail_product{
+        @apply text-7xl m-[5px] 
+}
+
+.detail_price{
+        @apply text-6xl m-[15px]  
+}
+
+.detail_discount{
+        @apply text-4xl line-through pl-[25px] pr-[10px]
+}
+
+.detail_discription{
+        @apply text-4xl h-[20vh] p-1  overflow-hidden
+}
+
+
+.detail_percentage{
+                @apply text-4xl  mb-[25px] 
+}
+
+.detail_stock{
+        @apply text-4xl  m-6 font-bold
+}
+
+
+.detail_like{
+        @apply flex  flex-row gap-2  text-center  h-[35px] m-[20px]
+}
+
+.detail_button{
+        @apply bg-gray-300 text-[20px] rounded-xl  border border-gray-400 
+
+}
+
+
+/* Login *//* Login *//* Login *//* Login *//* Login *//* Login *//* Login */
+
+
+.loginParent{
+        @apply flex  flex-col justify-center items-center h-screen bg-gray-300
+}
+
+
+.loginChild{
+        @apply bg-white p-[40px] border-2 rounded-xl pt-[30px] text-center
+}
+
+.heading{
+        @apply font-bold text-5xl p-[10px]  pb-[30px]
+}
+
+.inputField{
+        @apply  text-2xl p-[8px] font-serif
+} 
+
+.subHeading{
+        @apply text-4xl p-[10px]
+}
+
+.inputValue{
+        @apply text-[23px] bg-gray-200 w-full border-2 rounded-md p-[3px] pl-[8px] pr-[8px] font-semibold shadow-sm shadow-gray-500
+}
+
+.inputButton{
+        @apply bg-green-400 w-full border-2 border-transparent rounded-md hover:border-blue-600 active:text-gray-600 active:border-cyan-600 shadow-sm shadow-gray-600 mt-[25px]
+}
+
+.registerButton{
+         @apply bg-red-100 w-full border-2 border-transparent rounded-md hover:border-blue-600 active:text-gray-600 active:border-cyan-600 shadow-sm shadow-gray-600 mt-[25px]     
+}
+
