@@ -11,13 +11,13 @@ try {
 const ProductSchema = mongoose.Schema({
                                 
                                 name: String,
+                                category: String,
                                 productid:new mongoose.Schema.Types.ObjectId ,
                                 price: Number,
                                 discount: {type:Number, max:99 },
                                 stock: {type:Number, min:0 },
                                 rating: {type:Number, max:5,min:1 },
                                 description: String,
-
 })      
 
 const Products = mongoose.model("products", ProductSchema);

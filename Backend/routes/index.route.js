@@ -25,7 +25,7 @@ const router = Router()
         // router.use("/adminproduct",  productRoute)
         // router.use("/adminproduct",  productRoute)
         router.use("/product", authadminLogin,  productRoute)
-        router.use("/admin",  adminPanel)
+        router.use("/admin",   adminPanel)
         router.use("/userOrder", authadminLogin, orderRoute )
 
         // router.get("/search/:prodname", authLogin productPage)

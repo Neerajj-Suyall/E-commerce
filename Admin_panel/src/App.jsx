@@ -26,9 +26,9 @@ function App() {
         return (
                 <>
                         {adminName?.length >= 1 &&
-                                <div className=" relative flex flex-row">
+                                <div className=" relative flex flex-row w-[100vw]">
                                         <Leftpanel adminName={adminName[0].name}  />
-                                        <div className="pl-[15%]">
+                                        <div>
                                                 <Outlet />
                                                 <ScrollRestoration />
                                         </div>

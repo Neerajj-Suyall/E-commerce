@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import constant from "../../constant.js";
 import { userNotification } from "../../slice/notificationSlice.js";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 
 import "../App.css"
@@ -61,7 +62,8 @@ function Booking() {
                         return res.json();
                 }).then(res => {
                         console.log("POST", res);
-                        dispatch(userNotification("Address saved "))
+                        toast.success("Address saved");
+                        // dispatch(userNotification("Address saved "))
                         //     alert("Adress saved")
                 });
         })
@@ -114,7 +116,8 @@ function Booking() {
                 }).then(res => {
                         console.log("POST", res);
                         //     alert("item deliverd")
-                        dispatch(userNotification("Product delivered"))
+                        toast.success("Log in sucessfully ");
+                        // dispatch(userNotification("Product delivered"))
 
                         // console.log("selectedAddress");
                 });
@@ -128,14 +131,16 @@ function Booking() {
                 }
                 setQuantity((val) => val = val + 1);
                 setTotalPrice(product[0].price * (quantity + 1));
-                 dispatch(userNotification("Quantity =", quantity ))
+                toast.success("Quantity =", quantity);
+                //  dispatch(userNotification("Quantity =", quantity ))
         };
 
         const handleSubQuantity = () => {
                 if (quantity == 1) return
                 setQuantity((val) => val = val - 1);
                 setTotalPrice(product[0].price * (quantity - 1));
-                 dispatch(userNotification("Quantity =", quantity ))
+                toast.success("Quantity =", quantity);
+                //  dispatch(userNotification("Quantity =", quantity ))
         };
 
 

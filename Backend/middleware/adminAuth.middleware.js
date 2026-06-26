@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const key = "slkvnasvkladnvlknvsdghzlmeirmvcmbvoksgaoigehnaphgbsoij";
 
 const authadminLogin = (req, res, next) => {
-    const authToken = req.cookies.auth || null;
+    const authToken = req.cookies.adminauth || null;
     // console.log(req.cookies );
     
     if(authToken === null){
@@ -23,7 +23,7 @@ const authadminLogin = (req, res, next) => {
 
 
 const gernateadminToken = (payload) => {    
-    const token = jwt.sign(payload, key , {expiresIn: '200m'});
+    const token = jwt.sign(payload, key , {expiresIn: '210m'});
     return token;
 }
 

@@ -61,7 +61,7 @@ const login = async (req, res) => {
         console.log(token);
 
         loginInfo.data = result;
-        res.status(200).cookie("auth", token, {
+        res.status(200).cookie("userauth", token, {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,
@@ -231,7 +231,7 @@ const addressDefault = async (req, res) => {
 const logout = async (req, res) => {
         // let id = await req.authData?.id
         // if (id == null || id == undefined) return
-        res.status(200).cookie("auth", " ", {
+        res.status(200).cookie("userauth", " ", {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,

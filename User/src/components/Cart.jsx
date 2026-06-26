@@ -6,6 +6,7 @@ import CartSelect from "./CartSelect.jsx";
 import constant from "../../constant.js";
 import { useSelector, useDispatch } from "react-redux";
 import { removeReduxCart, CountCart, cartStatus } from "../../slice/cartSlice.js";
+import { toast } from "react-toastify";
 import { userNotification } from "../../slice/notificationSlice.js";
 
 
@@ -32,7 +33,8 @@ function Cart() {
                                 // console.log(cartDetails.filter(ittr=>  ittr.product_details[0]._id != e ));
                                 
                                 setCartDetails(cartDetails.filter(ittr=>  ittr.product_details[0]._id != e ))
-                                 dispatch(userNotification("Cart Removed"))
+                                toast.success("Cart Removed");
+                                //  dispatch(userNotification("Cart Removed"))
                                 return
                         }
 

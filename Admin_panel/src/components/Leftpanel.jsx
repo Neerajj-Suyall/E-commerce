@@ -15,7 +15,7 @@ function Leftpanel({
 
         return (
 
-                <div className='  w-[15%] shadow-2xl h-[100vh] fixed left-0 top-0 bottom-0 pb-[150px]'>
+                <div className='w-[15vw] shadow-2xl h-[100vh] fixed left-0 top-0 bottom-0 pb-[150px]'>
                         <div className="header1 p-2"><img src={image.Logo} alt="" /></div>
                        <div className=" p-4 flex flex-col justify-evenly h-full">
 

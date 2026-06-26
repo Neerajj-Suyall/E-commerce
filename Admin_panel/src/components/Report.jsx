@@ -28,7 +28,7 @@ function Report() {
 
         return (
                 <>
-                        <div className=" flex flex-col  items-center w-[85vw] h-[100vh] p-[50px]   bg-gray-200 pt-[70px]">
+                        <div className=" flex flex-col  items-center ml-[15vw] w-[85vw] h-[100vh] p-[50px]   bg-gray-200 pt-[70px]">
 
                                 <div className="flex flex-col text-center  justify-center border-2 w-[75vw] text-xl">
                                         <div className="flex flex-row text-2xl font-bold font-serif ">

@@ -3,6 +3,8 @@ import constant from "../../constant.js";
 import image from '../assets/Image'
 import { userNotification } from "../../slice/notificationSlice.js";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "../App.css"
 
@@ -90,8 +92,9 @@ function UserProfile() {
                                 // return res.json();
                         }).then(res => {
                                 console.log("POST", res);
+                                toast.success("Address saved");
                                 
-                                dispatch(userNotification("Address saved "))
+                                // dispatch(userNotification("Address saved "))
 
                         });
 

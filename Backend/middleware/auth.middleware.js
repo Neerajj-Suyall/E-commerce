@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const key = "sdflkjds";
 
 const authLogin = (req, res, next) => {
-    const authToken = req.cookies.auth || null;
+    const authToken = req.cookies.userauth || null;
     // console.log(req.cookies );
     
     if(authToken === null){
@@ -21,7 +21,6 @@ const authLogin = (req, res, next) => {
         next();
     })
 }
-
 
 const gernateToken = (payload) => {    
     const token = jwt.sign(payload, key , {expiresIn: '200m'});

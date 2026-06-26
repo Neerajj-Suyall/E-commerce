@@ -5,7 +5,9 @@ import constant from "../../constant.js";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { deleteBuyCart } from "../../slice/cartSlice.js";
-import {  userNotification} from "../../slice/notificationSlice.js";
+// import {  userNotification} from "../../slice/notificationSlice.js";
+import { toast } from "react-toastify";
+
 
 
 
@@ -88,11 +90,12 @@ function CartSelect({
                         // console.log("POST", res);
                         return res.json();      
                 }).then(res => {
-                        console.log("POST", res);
+                        // console.log("POST", res);
                         if (res.modifiedCount >=1) {
                         navigate(`/App/Orders`);
-                         dispatch(userNotification("Carts purchased"))
-                        console.log("selectedAddress= ",  cartDetails);
+                        //  dispatch(userNotification("Carts purchased"))
+                         toast.success("Carts purchased");
+                        // console.log("selectedAddress= ",  cartDetails);
                                  setCartDetails(cartDetails.reduce((initial, ittr) => {
                                 if (cartBuy.some(e =>  e?.productid == ittr?.product_details[0]?._id)) {
                                         return initial
@@ -101,7 +104,8 @@ function CartSelect({
                          },[]))
                          dispatch(deleteBuyCart(cartBuy));
                         } else {
-                              alert("something went wrong");  
+                                 toast.error("something went wrong");
+                        //       alert("something went wrong");  
                         }
                       
                 });

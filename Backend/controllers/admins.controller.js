@@ -2,6 +2,7 @@ import User from "../models/users.model.js";
 import Orderlists from "../models/orders.model.js";
 import cartsdb from "../models/carts.model.js";
 import {authadminLogin, gernateadminToken} from "../middleware/adminAuth.middleware.js"
+import productdb from "../models/products.model.js"
 import mongoose from "mongoose";
 import upload from "../models/multer.model.js";
 
@@ -9,7 +10,7 @@ import upload from "../models/multer.model.js";
 const Adminlogout = async (req, res) => {
         // let id = await req.authData?.id
         // if (id == null || id == undefined) return
-        res.status(200).cookie("auth", " ", {
+        res.status(200).cookie("adminauth", " ", {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,
@@ -89,7 +90,7 @@ const Adminlogin = async (req, res) => {
         console.log("token = ", token);
 
         loginInfo.data = result;
-        res.status(200).cookie("auth", token, {
+        res.status(200).cookie("adminauth", token, {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,
@@ -138,8 +139,39 @@ const handleImage = async (req, res) => {
 }
 
 
+const handleAdminProductAdd = (async (req, res) => {
+    console.log("crete new items =  new items backend", req.body );
+    console.log("req.body.name.length >= 3", req.body[0].name.length);
+    console.log("req.body.price >= 99",req.body.price >= 99);
+    console.log("req.body[0].discount <= 99",req.body[0].discount <= 99);
+    console.log("req.body[0].stock >= 1",req.body[0].stock >= 1);
+    console.log("req.body[0].description.length >= 10",req.body[0].description.length >= 10);
+//     console.log("req.body.name.length >= 3",req.body.name.length >= 3);
+//     console.log("req.body.name.length >= 3",req.body.name.length >= 3);
+    
+  try {
+    
+
+            if (req.body[0].name >= 4 && req.body[0].price >= 99  && req.body[0].discount <= 99  && req.body[0].stock >= 1  && req.body[0].description.length >= 10 ) {
+              let a = await productdb.create(req.body[0])
+        //       console.log(a);
+              res.status(200).json({success: true,
+                data:a}).end();
+              return
+            }
+    } catch (error) {
+  
+                  res.status(500).json({
+                            success: false,
+                             message: error.message 
+                            }).end();
+              }
+
+})
 
 
 
 
-export { handleAdminUsersData, handleAdminAccess, Adminlogin, Adminlogout, handleAdminName, AdminTesting, handleImage }
+
+
+export { handleAdminUsersData, handleAdminAccess, Adminlogin, Adminlogout, handleAdminName, AdminTesting, handleImage, handleAdminProductAdd }

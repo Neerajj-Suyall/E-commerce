@@ -11,6 +11,8 @@ import { cartValue } from "../slice/cartSlice.js";
 import {  allNotificationEnd, notificationKill, oneNotification } from "../slice/notificationSlice.js";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -33,6 +35,8 @@ function App() {
                         if (res == null || res.length < 1) return
                         let temp = res.map(val => { return { ...val, status: true } })
                         dispatch(cartValue(temp))
+                        console.log("temp= ",temp)
+                        // toast.success(temp);
                         console.log("app.js = ", res);
 
                 });
@@ -47,14 +51,16 @@ function App() {
                 }).then(res => {
                         if (res[0].length < 1) return
                         setUsername(res[0].name)
+                        toast.success("Log in sucessfully ");
                         return
                 });
         }, [])
 
         const hideAlert = () => {
-                console.log("allNotificationEnd");
+                // console.log("allNotificationEnd");
 
-                dispatch(allNotificationEnd())
+
+                // dispatch(allNotificationEnd())
         }
 
         // useEffect(() => {
@@ -75,15 +81,16 @@ function App() {
                 {(username !== null) &&
                  <>
                         <Header />
-                                <div className="flex flex-col wrap-normal fixed top-[50px] right-0  justify-center items-center rounded-lg bg-transparent gap-3" > 
+                                {/* <div className="flex flex-col wrap-normal fixed top-[50px] right-0  justify-center items-center rounded-lg bg-transparent gap-3" > 
                                 {cartRedux.map((ittr, index) => (
                                         <div className="flex flex-row border-2 border-cyan-400 bg-blue-200  rounded-lg ">
-                                                <div className='  text-3xl p-2  border-2 rounded-lg bg-cyan-50 m-2 font-semibold font-mono border-gray-400' key={index}>{index + 1}.{ittr}
-                                                           <button className="border-2  ml-2 p-1 px-4 w-fit rounded-lg bg-red-200 font-semibold hover:bg-red-300  active:bg-red-500  active:text-white" onClick={e =>dispatch(oneNotification(index))} >Hide </button>
+                                                <div className='  text-3xl p-2  border-2 rounded-lg bg-cyan-50 m-2 font-semibold font-mono border-gray-400' key={index}>{index + 1}.{ittr} */}
+                                                           {/* <button className="border-2  ml-2 p-1 px-4 w-fit rounded-lg bg-red-200 font-semibold hover:bg-red-300  active:bg-red-500  active:text-white" onClick={e =>dispatch(oneNotification(index))} >Hide </button> */}
+                                                           {/* <button className="border-2  ml-2 p-1 px-4 w-fit rounded-lg bg-red-200 font-semibold hover:bg-red-300  active:bg-red-500  active:text-white" >Hide </button>
                                                 </div>
                                         </div>
                                         ))}
-                                 </div>           
+                                 </div>            */}
                         <Outlet />
                         <ScrollRestoration />
                 </>
@@ -100,6 +107,16 @@ function App() {
                                 </div>
                  }
 
+                 <ToastContainer
+                         position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={true}
+                        closeOnClick
+                        pauseOnHover
+                        theme="colored"
+                />
+
                 </div>
                 // 
                
@@ -108,3 +125,11 @@ function App() {
 }
 
 export default App
+
+// toast.success("Success message");
+
+// toast.error("Error message");
+
+// toast.warning("Warning message");
+
+// toast.info("Information message");

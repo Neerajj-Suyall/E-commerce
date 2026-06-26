@@ -57,7 +57,7 @@ function HomeElement({
                                 <div className="flex-2 border-2 p-2  overflow-hidden">{ittr.name}</div>
                                 <div className="flex-2 border-2 p-2  overflow-hidden">{ittr.phoneNo}</div>
                                 <div className="flex-3 border-2 p-2  overflow-hidden">{ittr.email}</div>
-                                {editUpdate &&<div className="flex-2 border-2 p-2">
+                                {editUpdate &&<div className="flex-3 border-2 p-2">
                                         {editButton ?
                                                 <div>
                                                         <button className=" bg-green-400 mx-1 p-1 px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold " onClick={e=>setAccess(true)}>Admin</button>

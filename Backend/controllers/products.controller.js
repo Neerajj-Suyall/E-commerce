@@ -28,9 +28,7 @@ const nextPrevious = (async (req, res) => {
   const userSearch = req.params.product;
   // console.log("req.body.value= ",req.body.value);
   console.log("req.body.value= ",req.body.jump);
-  
-  
-  
+    
 
   if (req.body.jump != null ) {
     // const abcd = await productdb.find({ name: { $regex: userSearch, $options: "i" } })
@@ -85,7 +83,7 @@ const productList = (async (req, res) => {
 
 
 const handleAdminProductEdit = (async (req, res) => {
-  console.log("req.params.id = ", req.params.id);
+  // console.log("req.params.id = ", req.params.id);
 
   const userid = new mongoose.Types.ObjectId(req.params.id);
 
@@ -123,6 +121,9 @@ const handleAdminProductCount = (async (req, res) => {
   res.status(500).end();
 
 })
+
+
+
 
 
 

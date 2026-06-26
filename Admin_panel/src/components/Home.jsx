@@ -30,7 +30,7 @@ function Home() {
         return (
                 <>
 
-                        <div className=" flex flex-col  items-center w-[85vw] h-[100vh] p-[50px]   bg-gray-200 pt-[70px]">
+                        <div className=" flex flex-col  items-center ml-[15vw] w-[85vw] h-[100vh] p-[50px]   bg-gray-200 pt-[70px]">
 
                                 <div className="flex flex-col text-center  justify-center border-2 w-[80%] text-xl">
                                         <div className="flex flex-row text-2xl font-bold font-serif ">
@@ -38,7 +38,7 @@ function Home() {
                                                 <div className="flex-2 border-2 p-2 ">Name</div>
                                                 <div className="flex-2 border-2 p-2 ">Phone no.</div>
                                                 <div className="flex-3 border-2 p-2 ">Email</div>
-                                                <div className="flex-2 border-2 p-2 ">User/Admin</div>
+                                                <div className="flex-3 border-2 p-2 ">Role</div>
                                                 <div className="flex-2 border-2 p-2 ">Update</div>
                                         </div>
 
