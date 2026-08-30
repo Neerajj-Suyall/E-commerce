@@ -14,7 +14,6 @@ function Product() {
         const [stock, setStock] = useState("");
         const [category, setcategory] = useState("");
         const [description, setDescription] = useState("");
-        const [newProducts, setNewProducts] = useState([]);
         const [datas, setDatas] = useState([])
         const [count, setCount] = useState(null)
         const [images, setImages] = useState(Array(10).fill(null));
@@ -39,129 +38,182 @@ function Product() {
 
 
         //image uploading code End
+        const handleUpdateProduct = async () => {
 
-        const handleAddProduct = async () => {
-
-                console.log(newProducts);
-                if (name?.trim() == "") return
+                if (name?.trim() === "") return;
                 if (price === "" || Number(price) < 1) return;
                 if (stock === "" || Number(stock) < 1) return;
-                if (category?.trim() == "") return
-                if (images.length < 1 || images.length > 10) return;
-                //image uploading code Start
-                // base64Image code 
-                // let base64Image = "";
+                if (category?.trim() === "") return;
 
-                // if (image) {
-                //         base64Image = await convertToBase64(image);
-                // }
+                // Get only selected images
+                const selectedImages = images.filter(Boolean);
 
-                //image uploading code End
+                // Minimum 1 and maximum 10 images
+                if (selectedImages.length < 1 || selectedImages.length > 10) {
+                        alert("Please select minimum 1 and maximum 10 images.");
+                        return;
+                }
 
-                setNewProducts([...newProducts, {
+                // Product data
+                const product = {
                         name: name,
                         price: price,
                         discount: discount,
                         stock: stock,
                         category: category,
-                        description: description,
-                        //image uploading code Start
-                        fileName: image?.name,
-                        contentType: image?.type,
-                        image: image,
-                        // image: base64Image
-                        //image uploading code End
-                }]);
-                setName("");
-                setPrice("");
-                setDiscount("");
-                setStock("");
-                setcategory("");
-                setImage(null);
-                setDescription("");
-                setProductSno(e => e + 1)
-                return
+                        description: description
+                };
 
-        }
-
-
-        const handleUpdateProduct = () => {
-
-                // 1. FormData banao
+                // FormData
                 const formData = new FormData();
 
-                // 2. Products ki images FormData me add karo
-                newProducts.forEach((product) => {
-                        formData.append("images", product.image);
+                // Add every image separately
+                selectedImages.forEach((image) => {
+                        formData.append("images", image);
                 });
 
-                // 3. Image ko hata kar baaki product data alag bhejo
-                const productsData = newProducts.map((product) => {
-                        return {
-                                name: product.name,
-                                price: product.price,
-                                discount: product.discount,
-                                stock: product.stock,
-                                category: product.category,
-                                description: product.description
-                        };
-                });
+                // Add product information
+                formData.append(
+                        "products",
+                        JSON.stringify([product])
+                );
 
-                // 4. Products array ko JSON string bana kar FormData me daalo
-                formData.append("products", JSON.stringify(productsData));
+                console.log("Product:", product);
+                console.log("Selected images:", selectedImages);
 
-                console.log("productsData", productsData);
-                // const obj = Object.fromEntries(formData);
-                // console.log(obj);
+                try {
 
-
-
-
-
-                // 5. Backend ko FormData send karo
-                fetch(`${constant.domain}/admin/ProductAdd`, {
-                        method: "POST",
-
-                        // ❌ headers mat lagana
-                        // Browser automatically multipart/form-data set karega
-
-                        body: formData,
-                        credentials: "include"
-
-                })
-                        // .then(res => {
-                        //         return res.json();
-                        // })
-                        .then(res => {
-
-                                console.log("res = ", res);
-
-                                // setDatas(res);
-                                // setCount(e => e - res.length);
-
-                        })
-                        .catch(error => {
-                                console.log("Product upload error = ", error);
-                        });
+                        const response = await fetch(
+                                `${constant.domain}/admin/ProductAdd`,
+                                {
+                                        method: "POST",
+                                        body: formData,
+                                        credentials: "include"
+                                }
+                        );
 
 
 
-                // fetch(`${constant.domain}/admin/ProductAdd`, {
-                //         method: "POST",
-                //         headers: {
-                //                 "Content-Type": "application/json"
-                //         },
-                //         body: JSON.stringify(newProducts),
-                //         credentials: "include"
-                // }).then(res => {
-                //         return res.json();
-                // }).then(res => {
-                //         console.log("res = ", res);
-                //         setDatas(res)
-                //         setCount(e => e - res.length)
-                // });
+                        console.log("Response:", response);
 
+                        if (!response.ok) {
+                                const errorData = await response.json();
+
+                                throw new Error(
+                                        errorData.message || "Product upload failed"
+                                );
+                        }
+
+                        const result = await response.json();
+
+                        console.log("Product added successfully:", result);
+
+                } catch (error) {
+
+                        console.error(
+                                "Product upload error:",
+                                error
+                        );
+                }
         };
+
+
+
+        // const handleUpdateProduct = () => {
+
+        //         console.log(newProducts);
+        //         if (name?.trim() == "") return
+        //         if (price === "" || Number(price) < 1) return;
+        //         if (stock === "" || Number(stock) < 1) return;
+        //         if (category?.trim() == "") return
+        //         if (images.length < 1 || images.length > 10) return;
+
+
+
+        //         console.log(newProducts);
+        //         setNewProducts([{
+        //                 name: name,
+        //                 price: price,
+        //                 discount: discount,
+        //                 stock: stock,
+        //                 category: category,
+        //                 description: description,
+        //                 //image uploading code Start
+        //                 fileName: images?.name,
+        //                 contentType: images?.type,
+        //                 images: images,
+        //                 // image: base64Image
+        //                 //image uploading code End
+        //         }]);
+
+        //         // 1. FormData banao
+        //         const formData = new FormData();
+
+        //         // 2. Products ki images FormData me add karo
+        //         newProducts.forEach((product) => {
+        //                 formData.append("images", product.images);
+        //         });
+
+        //         // 3. Image ko hata kar baaki product data alag bhejo
+        //         const productsData = newProducts.map((product) => {
+        //                 return {                
+        //                         name: product.name,
+        //                         price: product.price,
+        //                         discount: product.discount,
+        //                         stock: product.stock,
+        //                         category: product.category,
+        //                         description: product.description
+        //                 };
+        //         });
+        //         console.log(newProducts);
+
+        //         // 4. Products array ko JSON string bana kar FormData me daalo
+        //         formData.append("products", JSON.stringify(productsData));
+
+        //         console.log("productsData", productsData);
+        //         // const obj = Object.fromEntries(formData);
+        //         // console.log(obj);
+
+
+
+
+
+        //         // 5. Backend ko FormData send karo
+        //         fetch(`${constant.domain}/admin/ProductAdd`, {
+        //                 method: "POST",
+        //                 // ❌ headers mat lagana
+        //                 // Browser automatically multipart/form-data set karega
+        //                 body: formData,
+        //                 credentials: "include"
+
+        //         })
+
+        //                 .then(res => {
+
+        //                         console.log("res = ", res);
+        //                 })
+        //                 .catch(error => {
+        //                         console.log("Product upload error = ", error);
+        //                 });
+
+
+
+        //         // fetch(`${constant.domain}/admin/ProductAdd`, {
+        //         //         method: "POST",
+        //         //         headers: {
+        //         //                 "Content-Type": "application/json"
+        //         //         },
+        //         //         body: JSON.stringify(newProducts),
+        //         //         credentials: "include"
+        //         // }).then(res => {
+        //         //         return res.json();
+        //         // }).then(res => {
+        //         //         console.log("res = ", res);
+        //         //         setDatas(res)
+        //         //         setCount(e => e - res.length)
+        //         // });
+
+        // };
 
 
 
@@ -345,7 +397,7 @@ function Product() {
                                                                                                         focus:border-green-500
                                                                                                         focus:ring-2 focus:ring-green-100
                                                                                                         outline-none transition-all"
-                                                                                        />
+                                                                                />
 
                                                                         </div>
 

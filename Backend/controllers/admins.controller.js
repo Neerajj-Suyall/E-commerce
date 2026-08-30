@@ -173,8 +173,14 @@ const handleImage = async (req, res) => {
 // }
 
 const handleAdminProductAdd = async (req, res) => {
+
+        
+        
         try {
-                const products = JSON.parse(req.body.products);
+                const products = JSON.parse(req.body.products);      
+                console.log("req.body.products = ", req.body.products);      
+                
+                console.log("req.files = ", req.files); 
 
                 if (!req.files && req.files.length >= 1 && req.files.length <= 10) {
                         return res.status(400).json({
@@ -184,6 +190,7 @@ const handleAdminProductAdd = async (req, res) => {
                 }
 
                 let images = [];
+                
 
                 for (const file of req.files) {
                         const result = await cloudinary.uploader.upload(file.path, {
@@ -194,6 +201,8 @@ const handleAdminProductAdd = async (req, res) => {
                 }
 
                 const product = products[0];
+
+                console.log("product",product);
 
                 if (
                         product.name.length >= 3 &&
