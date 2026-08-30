@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import constant from "../../constant.js";
 import { userNotification } from "../../slice/notificationSlice.js";
 import { useDispatch } from "react-redux";
+// import { toast } from "react-toastify";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 import "../App.css"

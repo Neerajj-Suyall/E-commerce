@@ -7,8 +7,10 @@ import constant from "../../constant.js";
 import { NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import {  userNotification } from "../../slice/notificationSlice.js";
+import { userNotification } from "../../slice/notificationSlice.js";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -20,7 +22,7 @@ function Header({
         // const [username, setUsername] = useState(null);
         const [searchValue, setSearchValue] = useState('');
         const navigate = useNavigate();
-            const dispatch = useDispatch();
+        const dispatch = useDispatch();
 
         const cartRedux = useSelector((state) => state.cart);
 
@@ -29,7 +31,8 @@ function Header({
                 if ((searchValue != null) && (searchValue.length >= 4))
                         // alert(searchValue)
                         navigate(`products/search/${searchValue}`);
-                         dispatch(userNotification("Search Result "))
+                toast.success("Search Result ");
+                //  dispatch(userNotification("Search Result "))
         }
 
         // useEffect(() => {

@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { handleAdminUsersData , handleAdminAccess, Adminlogin, Adminlogout, handleAdminName, AdminTesting ,handleImage, handleAdminProductAdd } from "../controllers/admins.controller.js";
 import { authadminLogin } from "../middleware/adminAuth.middleware.js";
-import upload from "../models/multer.model.js";
+import { uploadProductImages } from "../middleware/upload.middleware.js";
+// import upload from "../models/multer.model.js";
+import multer from "multer";
 
 const router = Router();
+const upload = multer({ dest: "uploads/" }); 
 
 
 
@@ -14,7 +17,8 @@ const router = Router();
         router.get("/adminData", authadminLogin, handleAdminName)
         router.post("/logout", Adminlogout)
         router.get("/userdata", authadminLogin, handleAdminUsersData)
-        router.post("/ProductAdd", authadminLogin, handleAdminProductAdd)
+        // router.post("/ProductAdd", authadminLogin, handleAdminProductAdd) //original 
+        router.post("/ProductAdd",  uploadProductImages,  handleAdminProductAdd)
         router.post("/:id", authadminLogin, handleAdminAccess)
         
 

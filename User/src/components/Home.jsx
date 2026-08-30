@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import constant from "../../constant.js";
 import { useSelector, useDispatch } from "react-redux";
 import { addReduxCart, removeReduxCart } from "../../slice/cartSlice.js";
-import { userNotification } from "../../slice/notificationSlice.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import { userNotification } from "../../slice/notificationSlice.js";
 
 function Home() {
         const [datas, setDatas] = useState([])
@@ -31,7 +33,8 @@ function Home() {
                 }).then(res => {
                         if (res.status == 200) {
                                 dispatch(removeReduxCart(e))
-                                dispatch(userNotification("Cart Remove"))
+                                toast.success("Cart Remove");
+                                // dispatch(userNotification("Cart Remove"))
                         }
                 })
         }
@@ -54,7 +57,8 @@ function Home() {
                         if (res.status == 200) {
                                 let temp = { productid: e, quantity: 1, status: true }
                                 dispatch(addReduxCart(temp))
-                                dispatch(userNotification("Cart Added"))
+                                toast.success("Cart Added");
+                                // dispatch(userNotification("Cart Added"))
                         }
                 })
         }
@@ -68,7 +72,7 @@ function Home() {
                                 "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                                value: (count )
+                                value: (count)
                         }),
                         credentials: "include"
                 }).then(res => {
@@ -89,7 +93,7 @@ function Home() {
                                 "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                                value: (count - (2*datas.length))
+                                value: (count - (2 * datas.length))
                         }),
                         credentials: "include"
                 }).then(res => {
@@ -122,7 +126,7 @@ function Home() {
 
         const HomeClick = (e) => {
                 e.preventDefault()
-                 if (e.target.id === "Previous") {
+                if (e.target.id === "Previous") {
                         console.log(e.target.id)
                         handlepreviousContent()
                         return
@@ -153,7 +157,7 @@ function Home() {
                         // } else if (e.target.id === "Buy_now") {
                         //     console.log("buy");
                         //     return
-                } 
+                }
                 return
         }
 
@@ -167,7 +171,7 @@ function Home() {
                                                 <Card ittr={ittr} imgsrc={ittr.category[0] + (Math.floor(Math.random() * 10) + 1)} cart={findCart(ittr._id)} />
                                         ))}
                                 {/* </div> */}
-                                
+
 
                                 <div >
                                         {(count != datas.length) &&
@@ -178,12 +182,12 @@ function Home() {
                                                 <button className=" h-fit py-2 px-4 rounded-md border hover:bg-blue-100 active:bg-cyan-100 active:border-cyan-600  font-semibold text-2xl" id="Next">Next</button>
                                         }
                                 </div>
-                                
+
 
 
                         </div>
 
-                        
+
                 </>
         )
 }

@@ -2,8 +2,9 @@ import User from "../models/users.model.js";
 import Orderlists from "../models/orders.model.js";
 import cartsdb from "../models/carts.model.js";
 import { gernateToken } from "../middleware/auth.middleware.js"
-import {authadminLogin, gernateadminToken} from "../middleware/adminAuth.middleware.js"
+import { authadminLogin, gernateadminToken } from "../middleware/adminAuth.middleware.js"
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const login = async (req, res) => {
         let loginInfo = {
@@ -31,20 +32,36 @@ const login = async (req, res) => {
                 return
         }
 
-        const data = {
-                email: req.body.email,
-                password: req.body.password,
-        }
+
+        // const data = {
+        //         email: req.body.email,
+        //         password: req.body.password,
+        // }
+
+
+        // //mongodb
+        // const result = await User.findOne(data, { _id: 1, name: 1, admin: 1 });
+        // console.log("login result", result);
+
+
+
+        let password = req.body.password;
 
 
         //mongodb
-        const result = await User.findOne(data, { _id: 1, name: 1 , admin:1});
-        console.log(result);
+        const result = await User.findOne({ email: req.body.email }, { _id: 1, name: 1, admin: 1, password: 1, });
+        const isMatch = await bcrypt.compare(
+                req.body.password,
+                result.password);
 
-        if (result === null || result?.admin === true) {
+
+        console.log("login result", result);
+        console.log("isMatch", isMatch);
+
+        if (result === null || result?.admin === true || isMatch == false) {
                 console.log("null");
-                 res.status(403).json([loginError]).end();
-                 return;
+                res.status(403).json([loginError]).end();
+                return;
         }
         console.log("req.body = ", result?.admin == true);
         // console.log( result._id.toString());
@@ -97,20 +114,25 @@ const registration = async (req, res) => {
                 return;
         }
 
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        console.log("hashedPassword", hashedPassword);
+
+
         const data = {
                 name: req.body.name,
                 phoneNo: req.body.phoneNo,
                 dateofBirth: req.body.dateofBirth,
                 email: req.body.email,
-                password: req.body.password,
-                address:[],
-                defaultAddress:{},
-                admin : false,
+                password: hashedPassword,
+                address: [],
+                defaultAddress: {},
+                admin: false,
 
         }
 
         console.log("data is  here = ", data);
-        
+
 
 
         const result = await User.create(data);
@@ -149,8 +171,8 @@ const handleAddress = async (req, res) => {
         // console.log("req.body.state",req.body.state== null);
         // console.log("req.body.zip",req.body.zip == null);
         // console.log("req.body.mobile",req.body.phoneNo == null);
-        
-        
+
+
         if ((req.body == null) ||
                 (req.body.name == null) ||
                 (req.body.address == null) ||
@@ -235,7 +257,7 @@ const logout = async (req, res) => {
                 httpOnly: true,
                 sameSite: "none",
                 secure: true,
-                maxAge:1,       
+                maxAge: 1,
         }).end();
 
 }

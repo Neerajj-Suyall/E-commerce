@@ -77,8 +77,8 @@ function UserProfile() {
                                 phoneNo: phoneNo
                         }
 
-                        console.log("const newAddress  = ",newAddress);
-                        
+                        console.log("const newAddress  = ", newAddress);
+
 
                         fetch(`${constant.domain}/user/Address`, {
                                 method: "POST",
@@ -93,7 +93,7 @@ function UserProfile() {
                         }).then(res => {
                                 console.log("POST", res);
                                 toast.success("Address saved");
-                                
+
                                 // dispatch(userNotification("Address saved "))
 
                         });
@@ -132,41 +132,41 @@ function UserProfile() {
                                         <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'>  State: <span className='font-bold uppercase text-3xl'>  {userData[0]?.address[0].state}</span></div>
                                         <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'>  Zip: <span className='font-bold uppercase text-3xl'>  {userData[0]?.address[0].zip}</span></div>          */}
                                         {selectedAddress &&
-                                        <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'> 
-                                                 Default Address:
-                                                
-                                                                <div className=" flex flex-row gap-3 ">
-                                                                        
-                                                                        <select id="old-address"
-                                                                                value={defaultAddress}
-                                                                                onChange={(e) => setDefaultAddress([e.target.value])}
-                                                                                className=" flex flex-row w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold uppercase text-3xl"  >
+                                                <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'>
+                                                        Default Address:
 
-                                                                                <option value="">Select Address</option>
-                                                                                {userData[0]?.address?.length >= 1 && userData[0]?.address?.map((address, index) => (
-                                                                                        <option key={index} value={index}>
-                                                                                                {address.name}, {address.address}, {address.city}, {address.state} - {address.zip}
-                                                                                        </option>
-                                                                                ))}
+                                                        <div className=" flex flex-row gap-3 ">
 
-                                                                        </select>
-                                                                        <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={HandleDefault}>select </button>
-                                                                        <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={e => setSelectedAddress(!selectedAddress)}> Add</button>
-                                                                        
-                                                                        
-                                                                </div>
-                                                
-                                                
+                                                                <select id="old-address"
+                                                                        value={defaultAddress}
+                                                                        onChange={(e) => setDefaultAddress([e.target.value])}
+                                                                        className=" flex flex-row w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 font-bold uppercase text-3xl"  >
 
-                                        </div>
+                                                                        <option value="">Select Address</option>
+                                                                        {userData[0]?.address?.length >= 1 && userData[0]?.address?.map((address, index) => (
+                                                                                <option key={index} value={index}>
+                                                                                        {address.name}, {address.address}, {address.city}, {address.state} - {address.zip}
+                                                                                </option>
+                                                                        ))}
+
+                                                                </select>
+                                                                <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={HandleDefault}>select </button>
+                                                                <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={e => setSelectedAddress(!selectedAddress)}> Add</button>
+
+
+                                                        </div>
+
+
+
+                                                </div>
                                         }
 
                                         {!selectedAddress &&
-                                                <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'> 
-                                                 Add Address:
-                                                                <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={e => setSelectedAddress(!selectedAddress)}> Add</button>
-                                                        </div>
-                                                        }
+                                                <div className='flex flex-col py-2 px-4 border-2 w-full rounded-lg font-semibold text-1xl hover:bg-blue-100 active:bg-blue-200'>
+                                                        Add Address:
+                                                        <button className='px-4  border-2 rounded-md border-gray-500 shadow-2xs text-3xl hover:border-blue-500 active:bg-cyan-400 ' onClick={e => setSelectedAddress(!selectedAddress)}> Add</button>
+                                                </div>
+                                        }
 
 
                                         {selectedAddress &&

@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import "../App.css"
 import constant from "../../constant.js";
 import { useDispatch } from "react-redux";
-import { userNotification, autoKillNotification } from "../../slice/notificationSlice.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import { userNotification, autoKillNotification } from "../../slice/notificationSlice.js";
 
 
 function Login() {
@@ -37,7 +39,8 @@ function Login() {
                                 if (res[0].success === true) {
                                         if (res) {
                                                 // alert("login sucessfully")
-                                                dispatch(userNotification("Login Successfully"))
+                                                // dispatch(userNotification("Login Successfully"))
+                                                toast.success("Log in sucessfully ");
                                                 // dispatch(autoKillNotification("Login Successfully"))
                                                 navigate("/App/Home");
                                         }
@@ -46,7 +49,8 @@ function Login() {
                         })
                 } else {
                         alert("something went wrong")
-                        dispatch(userNotification("something went wrong"))
+                        toast.success("Something went wrong ");
+                        // dispatch(userNotification("something went wrong"))
 
                         return
                 }
@@ -59,9 +63,9 @@ function Login() {
                 <>
                         <div className="loginParent">
                                 <div className="loginChild ">
-                                        <div className="loginCard">                                               
+                                        <div className="loginCard">
                                                 <div className="heading">
-                                                        User Login  
+                                                        User Login
                                                 </div>
 
                                                 <div className="inputField">

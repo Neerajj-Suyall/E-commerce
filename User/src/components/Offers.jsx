@@ -4,20 +4,22 @@ import { useEffect, useState } from 'react';
 import constant from "../../constant.js";
 import { useSelector, useDispatch } from "react-redux";
 import { addReduxCart, removeReduxCart } from "../../slice/cartSlice.js";
-import { userNotification } from "../../slice/notificationSlice.js";
+// import { userNotification } from "../../slice/notificationSlice.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function Offers() {
-   const [datas, setDatas] = useState([]) 
+    const [datas, setDatas] = useState([])
     const cartRedux = useSelector((state) => state.cart);
-    const dispatch = useDispatch();  
+    const dispatch = useDispatch();
 
     const findCart = (element) => {
         // return false
         return cartRedux.some(obj => obj.productid == element);
     }
 
-      const removecartClick = (e) => {
+    const removecartClick = (e) => {
 
         fetch(`${constant.domain}/cart/removeitems`, {
             method: "POST",
@@ -31,15 +33,16 @@ function Offers() {
         }).then(res => {
             if (res.status == 200) {
                 dispatch(removeReduxCart(e))
-                dispatch(userNotification("Cart Remove"))
+                // dispatch(userNotification("Cart Remove"))
+                toast.success("Cart Remove Successfully ");
             }
         })
     }
 
     const addcartClick = (e) => {
 
-        console.log("addcartClick = ",e);
-        
+        console.log("addcartClick = ", e);
+
 
         fetch(`${constant.domain}/cart/additems`, {
             method: "POST",
@@ -52,27 +55,28 @@ function Offers() {
             credentials: "include"
         }).then(res => {
             if (res.status == 200) {
-                let temp = { productid: e, quantity: 1,status: true }
+                let temp = { productid: e, quantity: 1, status: true }
                 dispatch(addReduxCart(temp))
-                dispatch(userNotification("Cart Added"))
+                // dispatch(userNotification("Cart Added"))
+                toast.success("Cart Added Successfully ");
             }
         })
     }
 
-     useEffect(()=>{
-      if (datas.length >1) return      
-         fetch(`${constant.domain}/offers`, {
-         method: "GET",
-         credentials: "include"
-         }).then(res => {
-         return res.json();
-         }).then(res => {   
-           console.log(res);         
+    useEffect(() => {
+        if (datas.length > 1) return
+        fetch(`${constant.domain}/offers`, {
+            method: "GET",
+            credentials: "include"
+        }).then(res => {
+            return res.json();
+        }).then(res => {
+            console.log(res);
             setDatas(res);
-        
-           
-         })   
-   },[])
+
+
+        })
+    }, [])
 
     const HomeClick = (e) => {
         e.preventDefault()
@@ -104,23 +108,23 @@ function Offers() {
         } else if (e.target.id === "Buy_now") {
             console.log("buy");
             return
-        }  
+        }
         return
     }
 
 
-  return (
-    <>
-      <div className='home_main'  onClick={HomeClick}>
-                     {
-							(datas?.length >= 1) &&
-									datas.map((ittr, index) => (
-										<Card  ittr={ittr} imgsrc={ittr.category[0]+(Math.floor(Math.random()*10)+1)}  cart={findCart(ittr._id)}  />
-									))
-								}
+    return (
+        <>
+            <div className='home_main' onClick={HomeClick}>
+                {
+                    (datas?.length >= 1) &&
+                    datas.map((ittr, index) => (
+                        <Card ittr={ittr} imgsrc={ittr.category[0] + (Math.floor(Math.random() * 10) + 1)} cart={findCart(ittr._id)} />
+                    ))
+                }
             </div>
-    </>
-  )
+        </>
+    )
 }
 
 export default Offers

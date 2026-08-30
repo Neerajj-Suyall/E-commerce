@@ -3,8 +3,10 @@ import "../App.css"
 import image from '../assets/Image/index.js'
 import { useEffect, useState } from 'react';
 import constant from "../../constant.js";
-import {  userNotification } from "../../slice/notificationSlice.js";
-import {  useDispatch } from "react-redux";
+// import { userNotification } from "../../slice/notificationSlice.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 
 
@@ -25,7 +27,7 @@ function OrderCard({
 	const [handleReview, setHandleReview] = useState(null) //new feedbACK
 	// const [product, setProduct] = useState(null) //db ka productdetail
 	const [productid, setProductid] = useState(null) //id
-	    const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
 
 	// useEffect((e=>{
@@ -68,16 +70,17 @@ function OrderCard({
 			const temp = [...reviewDatas, ratingData]
 			setReviewDatas(temp)
 			console.log("reviewDatas", reviewDatas);
-			
+
 			setHandleReview(null)
 			setHandleRating(null);
-			 dispatch(userNotification("Thanks for the feedback"))
+			//  dispatch(userNotification("Thanks for the feedback"))
+			toast.success("Thanks for the feedback ");
 			setOrderDatas(orderDatas.map(e => {
 				if (e._id == ratingData.orderid) {
 					e.orderdetail.map(ittr => {
 						if (ittr.productid == ratingData.productid) {
 							ittr.review = true
-							return { ...ittr}
+							return { ...ittr }
 						}
 						return ittr
 					})
@@ -124,16 +127,16 @@ function OrderCard({
 				setReviewDatas(res)
 				setOrderDatas(orderDatas.map(e => {
 					if (e._id == deleteData.orderid) {
-							e.orderdetail.map(ittr => {
-								if (ittr.productid == deleteData.productid) {
-									ittr.review = false
-									return { ...ittr}
-								}
-								return ittr
-							})
-						}
-						return e
-					}))
+						e.orderdetail.map(ittr => {
+							if (ittr.productid == deleteData.productid) {
+								ittr.review = false
+								return { ...ittr }
+							}
+							return ittr
+						})
+					}
+					return e
+				}))
 
 				return
 			}
@@ -167,7 +170,8 @@ function OrderCard({
 			setEditProductid(null)
 			setEditReview(null)
 			alert("review updated", reviewDatas)
-			 dispatch(userNotification("Feedback Updated"))
+			//  dispatch(userNotification("Feedback Updated"))
+			toast.success("Feedback Updated ");
 			setReviewDatas(reviewDatas.map(e => {
 				if (e.orderid == ratingData.orderid && e.productid == ratingData.productid) {
 					return {
@@ -199,8 +203,9 @@ function OrderCard({
 			setEditProductid(null)
 			setReviewDatas(null)
 			setEditReview(null)
-			alert("review delete")
-			 dispatch(userNotification("Delete Feedback"))
+			// alert("review delete")
+			//  dispatch(userNotification("Delete Feedback"))
+			toast.success("Delete Feedback");
 			setReviewDatas(reviewDatas.filter(e => {
 				if (e.orderid == deleteData.orderid && e.productid == deleteData.productid) {
 					return
@@ -214,7 +219,7 @@ function OrderCard({
 					e.orderdetail.map(ittr => {
 						if (ittr.productid == deleteData.productid) {
 							ittr.review = false
-							return { ...ittr}
+							return { ...ittr }
 						}
 						return ittr
 					})

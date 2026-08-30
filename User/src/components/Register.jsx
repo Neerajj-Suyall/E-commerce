@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import constant from "../../constant.js";
 import { useDispatch } from "react-redux";
-import {  userNotification } from "../../slice/notificationSlice.js";
+// import { userNotification } from "../../slice/notificationSlice.js";
 
 
 
@@ -17,15 +17,15 @@ function Register() {
         const [confirmpassword, setConfirmpassword] = useState();
         const [password, setPassword] = useState();
         const navigate = useNavigate();
-            const dispatch = useDispatch();
+        const dispatch = useDispatch();
 
 
 
 
         const SubmitData = (e) => {
 
-                console.log(phoneNo.length ,   phoneNo);
-                
+                console.log(phoneNo.length, phoneNo);
+
                 if (email?.length >= 8 && password?.length >= 8 && confirmpassword === password && phoneNo?.length >= 5) {
                         fetch(`${constant.domain}/user/registration`, {
                                 method: "POST",
@@ -45,10 +45,11 @@ function Register() {
                                 return res.json();
                         }).then(res => {
                                 console.log(res);
-                                
+
                                 if (res.success) {
                                         console.log(res.success);
-                                         dispatch(userNotification("Register Sucessfully"))
+                                        //  dispatch(userNotification("Register Sucessfully"))
+                                        toast.success("Register Sucessfully");
                                         navigate("/Login");
                                         setEmail("")
                                         setPhoneNo("")
@@ -63,7 +64,8 @@ function Register() {
                         })
                 } else {
                         alert("something went wrong")
-                         dispatch(userNotification("Something went wrong"))
+                        //  dispatch(userNotification("Something went wrong"))
+                        toast.error("Something went wrong");
                         return
                 }
         }

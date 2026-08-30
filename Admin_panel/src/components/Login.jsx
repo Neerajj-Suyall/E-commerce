@@ -5,8 +5,8 @@ import constant from "../../constant.js";
 
 
 function Login() {
-        const [email, setEmail] = useState("ExampleAbc@.gmail");
-        const [password, setPassword] = useState("ExampleAbc@.gmail");
+        const [email, setEmail] = useState("admin@gmail.com");
+        const [password, setPassword] = useState("admin@gmail.com");
         const navigate = useNavigate();
 
 

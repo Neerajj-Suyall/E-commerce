@@ -1,50 +1,3 @@
-<!-- 1. product delete and also delete from cart \\ or some thing else -->
-2. add footer to all pages
-3. add  contact page
-<!-- 4. add about us page -->
-5. rating reflection and improve UI  fix UI 
-<!-- 6. notification  auto deleting after 5 seconds (iss mai notificstion kaia hi saath hum hide ka redux bhii call kar denge jo redux kai andar time ko count karega) -->
-<!-- //yai kar kai dakh liya kaam nahi akar aaraha hai wahi code lika hu koi auar appraoach use karan padega -->
-
-7. wishlist feature
-8. admin cant cange his memeber ship like his own
-9. cloudnery mai image dalna plus pont hai
-
-
-
-<!-- 10. reviews bhi show hona chiye mere project mai  -->
-
-
-<!-- 11. mujhe iss mai notification mai toasfy lagana ahai  -->
-
-12. mujhe passsword ko encript karna hai 
-13. banner are setting to the backend 
-
-
-i just wana add bulk product add 
-
-
-
-jabhi prodelete kar diay hai cart mai proct delete show ho raha hai but uss mai delete ka button kaam nhi akr araha hai uss kai liye kuch akarna hai 
-mene check kiya cart mi id hai but jabhi wo productgs details alata hai wha akoi id nahi usse mujhe theek karna hai filhal 
-
-
-
-payment integration
-otp msg or mail 
-fuuly resposive 
-
-
-
-
-
-<!-- 8. cancel in address button in user profile -->
-
-
-layout ko bahhut accha banana hai mujhe 
-
-
-
 import { useEffect, useState } from "react";
 import ProductElement from "./ProductElement";
 import constant from "../../constant"
@@ -63,16 +16,47 @@ function Product() {
         const [newProducts, setNewProducts] = useState([]);
         const [datas, setDatas] = useState([])
         const [count, setCount] = useState(null)
+        const [image, setImage] = useState(null);
 
         // const [state, setState] = useState('');
 
-        const handleAddProduct =()=>{
+
+        //image uploading code start
+
+        const convertToBase64 = (file) => {
+                return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.readAsDataURL(file);
+
+                        reader.onload = () => {
+                                // sirf Base64 string
+                                resolve(reader.result.split(",")[1]);
+                        };
+
+                        reader.onerror = (error) => reject(error);
+                });
+        };
+
+
+        //image uploading code End
+
+        const handleAddProduct = async () => {
 
                 console.log(newProducts);
-                if (name?.trim == "") return
+                if (name?.trim() == "") return
                 if (price == "" && price >= 1) return
                 if (stock == "" && stock >= 1) return
-                if (description == "") return
+                if (category?.trim() == "") return
+
+                //image uploading code Start
+                let base64Image = "";
+
+                if (image) {
+                        base64Image = await convertToBase64(image);
+                }
+
+                //image uploading code End
 
                 setNewProducts([...newProducts, {
                         name: name,
@@ -81,21 +65,27 @@ function Product() {
                         stock: stock,
                         category: category,
                         description: description,
+                        //image uploading code Start
+                        fileName: image?.name,
+                        contentType: image?.type,
+                        image: base64Image
+                        //image uploading code End
                 }]);
                 setName("");
                 setPrice("");
                 setDiscount("");
                 setStock("");
                 setcategory("");
+                setImage(null);
                 setDescription("");
-                setProductSno(e => productSno + 1)
+                setProductSno(e => e + 1)
                 return
 
         }
 
 
         const handleUpdateProduct = () => {
-                
+
                 // alert("updated")
 
                 fetch(`${constant.domain}/admin/ProductAdd`, {
@@ -110,7 +100,7 @@ function Product() {
                 }).then(res => {
                         console.log("res = ", res);
                         setDatas(res)
-                        setCount(count - res.length)
+                        setCount(e => e - res.length)
                 });
 
 
@@ -127,7 +117,9 @@ function Product() {
                         console.log(res);
 
                         setDatas(res);
+                        // setCount(e => e + res.length)
                         setCount(count + res.length)
+
                 });
         }, [])
 
@@ -201,9 +193,9 @@ function Product() {
                                                 <div className="w-[140px] border-2 p-2 ">Update</div>
                                         </div>
 
-                                        {datas.length >= 1 && datas.map((ittr, index) => (
+                                        {/* {datas.length >= 1 && datas.map((ittr, index) => (
                                                 <ProductElement ittr={ittr} setDatas={setDatas} count={count == datas.length ? index + 1 : (count - datas.length) + index + 1} />
-                                        ))}
+                                        ))} */}
 
                                         <div>
 
@@ -221,27 +213,30 @@ function Product() {
                                         {insertButton ?
                                                 <div className=" flex flex-col text-center  justify-center border-2  text-xl">
                                                         <div className="flex flex-row text-2xl font-bold font-serif ">
-                                                <div className="w-[140px] border-2 p-2 ">S. no.</div>
-                                                <div className="w-[210px] border-2 p-2 ">Name</div>
-                                                <div className="w-[140px] border-2 p-2 ">Price</div>
-                                                <div className="w-[140px] border-2 p-2 ">Off (%)</div>
-                                                <div className="w-[140px] border-2 p-2 ">Stock</div>
-                                                <div className="w-[200px] border-2 p-2 ">Category</div>
-                                                <div className="w-[280px] border-2 p-2 ">Description</div>
-                                                {/* <div className="w-[140px] border-2 p-2 ">Update</div> */}
-                                        </div>
+                                                                <div className="w-[120px] border-2 p-2 ">S. no.</div>
+                                                                <div className="w-[210px] border-2 p-2 ">Name</div>
+                                                                <div className="w-[140px] border-2 p-2 ">Price</div>
+                                                                <div className="w-[140px] border-2 p-2 ">Off (%)</div>
+                                                                <div className="w-[140px] border-2 p-2 ">Stock</div>
+                                                                <div className="w-[200px] border-2 p-2 ">Category</div>
+                                                                <div className="w-[280px] border-2 p-2 ">Description</div>
+                                                                <div className="w-[100px] border-2 p-2 ">Image</div>
+                                                        </div>
 
-                                                        {newProducts.map((ittr, index) => 
-                                                        <div className="flex flex-row  justify-center overflow-y-visible" >
-                                                                <div className="w-[140px]  border-2 p-2">{index + 1}</div>
-                                                                <div className="w-[210px] border-2 p-2"> {ittr.name}</div>
-                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.price}</div>
-                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.discount}</div>
-                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.stock}</div>
-                                                                <div className="w-[200px]  border-2 p-2 ">{ittr.category}</div>
-                                                                <div className="w-[280px] border-2 p-2 ">{ittr.description} </div>
-                                                                {/* <div className="w-[140px] border-2 p-2">{count}</div> */}
-                                                                {/* <div className="w-[210px] border-2 p-2">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Product Name..." onChange={e=> setName(e.target.value)} value={name}/>: ittr.name}</div>
+                                                        {newProducts.map((ittr, index) => {
+                                                                return (
+                                                                        <div className="flex flex-row  justify-center overflow-y-visible" >
+                                                                                <div className="w-[120px]  border-2 p-2">{index + 1}</div>
+                                                                                <div className="w-[210px] border-2 p-2"> {ittr.name}</div>
+                                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.price}</div>
+                                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.discount}</div>
+                                                                                <div className="w-[140px]  border-2 p-2 ">{ittr.stock}</div>
+                                                                                <div className="w-[200px]  border-2 p-2 ">{ittr.category}</div>
+                                                                                <div className="w-[280px] border-2 p-2 ">{ittr.description} </div>
+                                                                                <div className="w-[100px] border-2 p-2 "><img src={`data:image/png;base64,${ittr.image}`} alt="Red Dot" />
+                                                                                </div>
+                                                                                {/* <div className="w-[140px] border-2 p-2">{count}</div> */}
+                                                                                {/* <div className="w-[210px] border-2 p-2">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Product Name..." onChange={e=> setName(e.target.value)} value={name}/>: ittr.name}</div>
                                 <div className="w-[140px] border-2 p-2">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Price..." onChange={e=> setPrice(e.target.value)} value={price}/>: ittr.price}</div>
                                 <div className="w-[140px] border-2 p-2">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Discount in %"  onChange={e=> setDiscount(e.target.value)} value={discount}/>: ittr.discount}</div>
                                 <div className="w-[140px] border-2 p-2">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Stock..."  onChange={e=> setStock(e.target.value)} value={stock}/>: ittr.stock}</div>
@@ -249,29 +244,31 @@ function Product() {
                                 <div className="w-[280px] border-2 p-2 overflow-clip">{editButton ?  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Description..."  onChange={e=> setDescription(e.target.value)} value={description}/>: ittr.description}</div> */}
 
 
-                                                        </div>)}
+                                                                        </div>)
+                                                        })}
 
 
                                                         <div className="flex flex-row text-2xl capitalize  justify-center" >
-                                                                <div className="w-[140px] border-2 p-2">{productSno}</div>
-                                                                <div className="w-[210px] border-2 p-2">  <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Product Name..." onChange={e => setName(e.target.value)} value={name} /></div>
-                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Price..." onChange={e => setPrice(e.target.value)} value={price} /></div>
-                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Discount in %" onChange={e => setDiscount(e.target.value)} value={discount} /></div>
-                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Stock..." onChange={e => setStock(e.target.value)} value={stock} /></div>
-                                                                <div className="w-[200px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md p-1" placeholder="category..." onChange={e => setcategory(e.target.value)} value={category} /></div>
-                                                                <div className="w-[280px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md p-1" placeholder="Description..." onChange={e => setDescription(e.target.value)} value={description} /></div>
-                                                                {/* <div className="flex-2 border-2 p-2 flex flex-col justify-evenly items-center ">        
+                                                                <div className="w-[120px] border-2 p-2">{productSno}</div>
+                                                                <div className="w-[210px] border-2 p-2">  <input type="text" className="w-full border-2 rounded-md " placeholder="Name..." onChange={e => setName(e.target.value)} value={name} /></div>
+                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md " placeholder="Price..." onChange={e => setPrice(e.target.value)} value={price} /></div>
+                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md " placeholder="Discount in %" onChange={e => setDiscount(e.target.value)} value={discount} /></div>
+                                                                <div className="w-[140px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md " placeholder="Stock..." onChange={e => setStock(e.target.value)} value={stock} /></div>
+                                                                <div className="w-[200px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md " placeholder="category..." onChange={e => setcategory(e.target.value)} value={category} /></div>
+                                                                <div className="w-[280px] border-2 p-2 "> <input type="text" className="w-full border-2 rounded-md " placeholder="Description..." onChange={e => setDescription(e.target.value)} value={description} /></div>
+                                                                <div className="w-[100px] border-2 p-2"> <input type="file" className="w-full border-2 rounded-md " accept="image/*" onChange={(e) => setImage(e.target.files[0])} /></div>
+                                                                {/* <div className="flex-2 border-2 p-2 flex flex-col justify-evenly items-center ">
                                                                         <button className=" bg-green-400 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold">Add</button>
                                                                 </div> */}
                                                         </div>
 
                                                         {/* <button className="my-[20px] bg-green-400 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold text-3xl" onClick={handleUpdateProduct}>Add More</button> */}
-                                                        
-                                                        { newProducts.length >=1 && <button className="my-[20px] bg-green-400 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold text-3xl" onClick={handleUpdateProduct}>Update</button>
-                                                                }
-                                                        <button className="my-[20px] bg-green-400 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold text-3xl" onClick={handleAddProduct}>Add More...</button>
 
-                                                        <button className=" bg-red-400 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-red-500 hover:border-cyan-400 active:text-black transition-all font-semibold" onClick={e => setInsertButton(!insertButton)}>Hide </button>
+                                                        {newProducts.length >= 1 && <button className="my-[20px] bg-green-800 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-900 hover:border-cyan-400 active:text-black transition-all font-semibold text-3xl" onClick={handleUpdateProduct}>Update</button>
+                                                        }
+                                                        <button className="my-[20px] bg-green-800 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-green-500 hover:border-cyan-400 active:text-black transition-all font-semibold text-3xl" onClick={handleAddProduct}>Add More...</button>
+
+                                                        <button className=" bg-red-800 p-1  px-4 border-2 border-gray-500 rounded-md text-white hover:bg-red-500 hover:border-cyan-400 active:text-black transition-all font-semibold" onClick={e => setInsertButton(!insertButton)}>Hide </button>
 
                                                 </div>
 
@@ -283,10 +280,16 @@ function Product() {
                         </div>
 
 
-                        
+
 
                 </>
         );
 };
 
-export default Product 
+export default Product
+
+// iss kai uppar ka  sara code convertToBase64 ka code hai iss mia backup kia liye rakha hua hu
+
+
+
+// FormData  b use karna hai 

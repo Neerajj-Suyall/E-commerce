@@ -6,7 +6,9 @@ import CartSelect from "./CartSelect.jsx";
 import constant from "../../constant.js";
 import { useSelector, useDispatch } from "react-redux";
 import { removeReduxCart, CountCart, cartStatus } from "../../slice/cartSlice.js";
+// import { toast } from "react-toastify";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { userNotification } from "../../slice/notificationSlice.js";
 
 
@@ -31,8 +33,8 @@ function Cart() {
                         if (res.status == 200) {
                                 dispatch(removeReduxCart(e))
                                 // console.log(cartDetails.filter(ittr=>  ittr.product_details[0]._id != e ));
-                                
-                                setCartDetails(cartDetails.filter(ittr=>  ittr.product_details[0]._id != e ))
+
+                                setCartDetails(cartDetails.filter(ittr => ittr.product_details[0]._id != e))
                                 toast.success("Cart Removed");
                                 //  dispatch(userNotification("Cart Removed"))
                                 return
@@ -53,12 +55,12 @@ function Cart() {
 
                 count.quantity += 1;
                 //check stock less than quantity                //check stock less than quantity
-                console.log("cartDetails[i].product_details[0]._id = ",cartDetails[0]);
-                console.log("cartDetails[i].product_details[0]._id = ",cartDetails[1]);
+                console.log("cartDetails[i].product_details[0]._id = ", cartDetails[0]);
+                console.log("cartDetails[i].product_details[0]._id = ", cartDetails[1]);
                 let stock
                 for (let i = 0; i < cartDetails.length; i++) {
-                        
-                        
+
+
 
                         if (cartDetails[i].product_details[0]?._id == e) {
                                 stock = cartDetails[i].product_details[0].stock
@@ -124,7 +126,7 @@ function Cart() {
                 });
         }, [])
 
-        
+
         // useEffect(() => {
         //         console.log("cartRedux", cartRedux);
         //         console.log("cartDetails", cartDetails);

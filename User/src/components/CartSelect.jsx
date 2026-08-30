@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteBuyCart } from "../../slice/cartSlice.js";
 // import {  userNotification} from "../../slice/notificationSlice.js";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -19,7 +20,7 @@ function CartSelect({
         // const [temper , setTemp] = useState(cartBuy) //buy product
         const cartRedux = useSelector((state) => state.cart);
         const dispatch = useDispatch();
-         const navigate =useNavigate();
+        const navigate = useNavigate();
 
         const [originalPrice, setOriginalPrice] = useState(0) //buy product
         const [discount, setDiscount] = useState(0) //buy product
@@ -38,7 +39,7 @@ function CartSelect({
         const [selectedAddress, setSelectedAddress] = useState('');  // final address for this product 
 
         const handlePlaceOrder = (async (e) => {
-                console.log("selectedAddress",selectedAddress);
+                console.log("selectedAddress", selectedAddress);
                 if (useOldAddress == true) {
                         if (name.length < 1) return
                         if (address.length < 1) return
@@ -55,29 +56,29 @@ function CartSelect({
                                 zip: zip,
                                 phoneNo: phoneNo
                         }
-                         setSelectedAddress(userAddress);
+                        setSelectedAddress(userAddress);
                 }
                 console.log("selectedAddress", selectedAddress);
                 if (selectedAddress == null) return
 
-                let cartBuy = cartRedux.reduce((initial, ittr) => {                                                
-                        if (ittr.status== true) {
+                let cartBuy = cartRedux.reduce((initial, ittr) => {
+                        if (ittr.status == true) {
                                 initial.push({ productid: ittr.productid, quantity: ittr.quantity })
-                        } 
+                        }
                         return initial;
                 }, [])
 
 
-                console.log("cartBuycartBuy",cartBuy);
-                        
+                console.log("cartBuycartBuy", cartBuy);
+
 
                 let temp = {
                         userdata: { ...selectedAddress },
                         productdata: cartBuy
                 }
 
-                console.log("mai yaha hu",temp);
-                
+                console.log("mai yaha hu", temp);
+
 
                 fetch(`${constant.domain}/order/cart/ok`, {
                         method: "POST",
@@ -88,26 +89,26 @@ function CartSelect({
                         credentials: "include"
                 }).then(res => {
                         // console.log("POST", res);
-                        return res.json();      
+                        return res.json();
                 }).then(res => {
                         // console.log("POST", res);
-                        if (res.modifiedCount >=1) {
-                        navigate(`/App/Orders`);
-                        //  dispatch(userNotification("Carts purchased"))
-                         toast.success("Carts purchased");
-                        // console.log("selectedAddress= ",  cartDetails);
-                                 setCartDetails(cartDetails.reduce((initial, ittr) => {
-                                if (cartBuy.some(e =>  e?.productid == ittr?.product_details[0]?._id)) {
-                                        return initial
-                                }         
-                                return [...initial, ittr ]
-                         },[]))
-                         dispatch(deleteBuyCart(cartBuy));
+                        if (res.modifiedCount >= 1) {
+                                navigate(`/App/Orders`);
+                                //  dispatch(userNotification("Carts purchased"))
+                                toast.success("Carts purchased");
+                                // console.log("selectedAddress= ",  cartDetails);
+                                setCartDetails(cartDetails.reduce((initial, ittr) => {
+                                        if (cartBuy.some(e => e?.productid == ittr?.product_details[0]?._id)) {
+                                                return initial
+                                        }
+                                        return [...initial, ittr]
+                                }, []))
+                                dispatch(deleteBuyCart(cartBuy));
                         } else {
-                                 toast.error("something went wrong");
-                        //       alert("something went wrong");  
+                                toast.error("something went wrong");
+                                //       alert("something went wrong");  
                         }
-                      
+
                 });
         })
 
@@ -115,20 +116,20 @@ function CartSelect({
         useEffect(() => {
 
                 // console.log("jindahu");
-                
+
                 fetch(`${constant.domain}/user/Addressdetail`, {
                         method: "GET",
                         credentials: "include"
                 }).then(res => {
                         return res.json();
                 }).then(res => {
-                        console.log("my address = ",res);
+                        console.log("my address = ", res);
                         if (res == null) return
-                        setOldAddresses(res[0]?.address);   
-                        setSelectedAddress(res[0]?.DefaultAddress);   
+                        setOldAddresses(res[0]?.address);
+                        setSelectedAddress(res[0]?.DefaultAddress);
                 });
 
-        }, [])       
+        }, [])
 
         // useEffect(() => {
         //         setSelectedAddress(oldAddresses[findAddress])
@@ -138,8 +139,8 @@ function CartSelect({
 
         useEffect(() => {
                 // console.log(originalPrice);
-                 console.log(cartRedux);
-                 setClicked(e=> 0)
+                console.log(cartRedux);
+                setClicked(e => 0)
 
                 // setOriginalPrice(cartDetails?.reduce((acc , cur) => true  && acc+cur.product_details[0].price , 0 ))
                 setOriginalPrice(cartDetails?.reduce((acc, cur) => {
@@ -153,13 +154,13 @@ function CartSelect({
                         // console.log("cartRedux", cartRedux?.some(e => e.productid == cur?.product_details[0]?._id) == true);
 
                         if (cartRedux?.some(e => e.productid == cur?.product_details[0]?._id && e.status)) {
-                                setClicked(e=> e+1)
+                                setClicked(e => e + 1)
                                 return Math.floor(acc + (Math.round(((cur?.product_details[0].price / 100) * (cur?.product_details[0].discount))) * cur.cartData.quantity))
                         }
                         return acc
                 }, 0))
 
-      
+
         }, [cartDetails, cartRedux])
 
 
@@ -282,19 +283,19 @@ function CartSelect({
                                                         <select
                                                                 id="old-address"
                                                                 value={findAddress}
-                                                                onChange={(e) => {  
-                                                                             setSelectedAddress(oldAddresses[e.target.value]);
-                                                                             setFindAddress(e.target.value)
-                                                                         }}
+                                                                onChange={(e) => {
+                                                                        setSelectedAddress(oldAddresses[e.target.value]);
+                                                                        setFindAddress(e.target.value)
+                                                                }}
                                                                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                         >
                                                                 {/* <option value="">{selectedAddress ? `${selectedAddress.name}, ${selectedAddress.address}, ${selectedAddress.city}, ${selectedAddress.state} - ${selectedAddress.zip}`: "Select Address"}</option> */}
                                                                 <option value="">Select Address</option>
-                                                                        {oldAddresses?.map((address, index) => (
-                                                                                <option  key={index} value={index}>
-                                                                                        {address.name}, {address.address}, {address.city}, {address.state} - {address.zip}
-                                                                                </option>
-                                                                        ))}
+                                                                {oldAddresses?.map((address, index) => (
+                                                                        <option key={index} value={index}>
+                                                                                {address.name}, {address.address}, {address.city}, {address.state} - {address.zip}
+                                                                        </option>
+                                                                ))}
                                                         </select>
                                                 </div>
                                         )}
