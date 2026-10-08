@@ -9,6 +9,7 @@ import Product from './components/Product.jsx'
 import Report from './components/Report.jsx'
 import LogOut from './components/LogOut.jsx'
 import Testing from './components/Testing.jsx'
+import Banner from './components/Banner.jsx'
 // import { Provider } from 'react-redux'
 
 
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
                         <Route path='Home' element={<Home />} />
                         <Route path='Product' element={<Product />} />
                         <Route path='Report' element={<Report />} />
+                        <Route path='Banner' element={<Banner />} />
             </Route>
         </>
     )

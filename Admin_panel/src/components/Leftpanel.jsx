@@ -24,6 +24,8 @@ function Leftpanel({
                                          <NavLink to='/Admin/Product' className={({ isActive }) => ` header_button center ${isActive ? " bg-cyan-100" : "bg-gray-300"}`}>Product</NavLink>
                                
                                         <NavLink to='/Admin/Report' className={({ isActive }) => ` header_button center ${isActive ? " bg-cyan-100" : "bg-gray-300"}`}>Report</NavLink>
+                                        
+                                        <NavLink to='/Admin/Banner' className={({ isActive }) => ` header_button center ${isActive ? " bg-cyan-100" : "bg-gray-300"}`}>Banner</NavLink>
 
                                         {/* <NavLink to='/Logout' className={({ isActive }) => ` mt-[50px] header_button center ${isActive ? " bg-cyan-100" : "bg-gray-300"}`}>hi {adminName}</NavLink> */}
 

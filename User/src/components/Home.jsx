@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Home() {
         const [datas, setDatas] = useState([])
+        const [banner, setBanner] = useState([])
         const [count, setCount] = useState(0)
         const cartRedux = useSelector((state) => state.cart);
         const dispatch = useDispatch();
@@ -117,6 +118,20 @@ function Home() {
                         setDatas(res);
                         setCount(count + res.length)
                 });
+
+                fetch(`${constant.domain}/banner/banner`, {
+                        method: "GET",
+                        credentials: "include"
+                }).then(res => {
+                        return res.json();
+                }).then(res => {
+                        setBanner(res);
+                        console.log("banner = ",banner );
+                        
+                        // setCount(count + res.length)
+                });
+
+
         }, [])
 
 

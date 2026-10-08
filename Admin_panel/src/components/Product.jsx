@@ -18,7 +18,7 @@ function Product() {
         const [count, setCount] = useState(null)
         const [images, setImages] = useState(Array(10).fill(null));
 
-        // const [state, setState] = useState('');
+        // const [state, setState] = useState(''); 
 
 
         //image uploading code start

@@ -9,10 +9,13 @@ try {
 
 
 const reviewRatingSchema = mongoose.Schema({
-                                userid: new mongoose.Schema.Types.ObjectId,
+                                // userid: new mongoose.Schema.Types.ObjectId,
+                                userid:  mongoose.Schema.Types.ObjectId,
                                 username:String,
-                                productid:new mongoose.Schema.Types.ObjectId ,
-                                orderid:new mongoose.Schema.Types.ObjectId ,
+                                // productid:new mongoose.Schema.Types.ObjectId ,
+                                productid: mongoose.Schema.Types.ObjectId ,
+                                // orderid:new mongoose.Schema.Types.ObjectId ,
+                                orderid: mongoose.Schema.Types.ObjectId ,
                                 rating:{
                                         type:Number,
                                         min:1,

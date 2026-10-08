@@ -12,7 +12,8 @@ const ProductSchema = mongoose.Schema({
 
         name: String,
         category: String,
-        productid: new mongoose.Schema.Types.ObjectId,
+        // productid: new mongoose.Schema.Types.ObjectId,
+        productid:  mongoose.Schema.Types.ObjectId,
         price: Number,
         discount: { type: Number, max: 99 },
         stock: { type: Number, min: 0 },

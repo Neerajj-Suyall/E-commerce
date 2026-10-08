@@ -9,7 +9,8 @@ try {
 
 const DetailSchema = mongoose.Schema({
                                 name: String,
-                                productid:new mongoose.Schema.Types.ObjectId,
+                                // productid:new mongoose.Schema.Types.ObjectId,
+                                productid: mongoose.Schema.Types.ObjectId,
                                 price: Number,
                                 discount: {type:Number, min:0, max:99 },
                                 description: String,
@@ -23,7 +24,8 @@ const DetailSchema = mongoose.Schema({
 
 
 const OrderSchema = mongoose.Schema({
-        userid: new mongoose.Schema.Types.ObjectId,
+        // userid: new mongoose.Schema.Types.ObjectId,
+        userid:  mongoose.Schema.Types.ObjectId,
         orderdetail: [DetailSchema],
         ordered: {
                 type:Date,

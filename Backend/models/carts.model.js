@@ -8,12 +8,14 @@ try {
 }
 
 const cartDataSchema = mongoose.Schema({
-        productid:new mongoose.Schema.Types.ObjectId ,
+        // productid:new mongoose.Schema.Types.ObjectId ,
+        productid: mongoose.Schema.Types.ObjectId ,
         quantity:{type:Number} ,
 }, {_id:false})
 
 const CartSchema = mongoose.Schema({
-                                userid: new mongoose.Schema.Types.ObjectId,
+                                // userid: new mongoose.Schema.Types.ObjectId,
+                                userid:  mongoose.Schema.Types.ObjectId,
                                 cartData: [cartDataSchema],
 })      
 

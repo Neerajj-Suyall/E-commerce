@@ -8,7 +8,7 @@
 
 7. wishlist feature
 8. admin cant cange his memeber ship like his own
-9. cloudnery mai image dalna plus pont hai
+<!-- 9. cloudnery mai image dalna plus pont hai -->
 
 
 
@@ -17,7 +17,7 @@
 
 <!-- 11. mujhe iss mai notification mai toasfy lagana ahai  -->
 
-12. mujhe passsword ko encript karna hai 
+<!-- 12. mujhe passsword ko encript karna hai  -->
 13. banner are setting to the backend 
 
 
