@@ -7,7 +7,7 @@ import { useEffect } from "react";
 function Invoice() {
         const { id } = useParams();
         const [detail, setDetail] = useState([]);
-        // const [detail.orderdetail, setProduct] = useState([]);
+        // const [detail?.orderdetail, setProduct] = useState([]);
         // const [detail.shippingdetail?.name, setUser] = useState([]);
 
            useEffect(() => {
@@ -62,7 +62,7 @@ function Invoice() {
                                         </tr>
 
                                                 {
-                                                        detail.orderdetail?.map((ittr, index)=> (
+                                                        detail?.orderdetail?.map((ittr, index)=> (
                                                                 <tr  className="border-1">
                                                                         <td className="border-1">{index+1}</td>
                                                                         <td  className="border-1">{ittr?.name}</td>
@@ -79,7 +79,7 @@ function Invoice() {
                                                          <td className=" text-center text-4xl font-bold " colSpan={5}>Total Amount</td>
                                                         <td  className="border-1 text-4xl font-semibold">
                                                         {
-                                                                detail.orderdetail?.reduce((acc, cur)=> {
+                                                                detail?.orderdetail?.reduce((acc, cur)=> {
                                                                          return  acc + (Math.floor((cur?.price/100)*(100-cur?.discount)) *(cur?.quantity))
                                                                         
                                                         },0)}
@@ -100,9 +100,10 @@ function Invoice() {
                                         <table className="border-1  text-center ">
                                                 <tr>
                                                         {/* <td className="border-1 font-semibold">hello <span className="font-normal">world</span></td> */}
-                                                        <td className="border-1 font-semibold">date & time: <span className="font-normal">Dec 12;30</span></td>
-                                                        <td className="border-1 font-semibold">invoice value: <span className="font-normal">{(Math.floor((detail.orderdetail?.price/100)*(100-detail.orderdetail?.discount)) *(detail.orderdetail?.quantity))+(Math.floor((detail.orderdetail?.price/100)*(25))) +(Math.floor((detail.orderdetail?.price/100)*(15)))}</span></td>
-                                                        <td className="border-1 font-semibold">payment: <span className="font-normal">COD</span></td>
+                                                        <td className="border-1 font-semibold">Date & Time: <span className="font-normal">Dec 12:30</span></td>
+                                                        {/* <td className="border-1 font-semibold">Date & Time: <span className="font-normal">{detail.orderdetail?price}</span></td> */}
+                                                        <td className="border-1 font-semibold">Invoice Value: <span className="font-normal">{(Math.floor((detail?.orderdetail?.price/100)*(100-detail?.orderdetail?.discount)) *(detail?.orderdetail?.quantity))+(Math.floor((detail?.orderdetail?.price/100)*(25))) +(Math.floor((detail?.orderdetail?.price/100)*(15)))}</span></td>
+                                                        <td className="border-1 font-semibold">Payment: <span className="font-normal">COD</span></td>
                                                 </tr>
                                         </table>
 		        </div>

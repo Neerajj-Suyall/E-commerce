@@ -11,7 +11,7 @@ try {
 const BannerSchema = mongoose.Schema({
         banner1: {
                 type: String,
-                required: true,
+                required: false,
                 trim: true,
                 validate: {
                         validator: function (value) {
@@ -23,7 +23,7 @@ const BannerSchema = mongoose.Schema({
         },
         banner2: {
                 type: String,
-                required: true,
+                required: false,
                 trim: true,
                 validate: {
                         validator: function (value) {

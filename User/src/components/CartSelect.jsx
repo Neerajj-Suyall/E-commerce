@@ -88,10 +88,10 @@ function CartSelect({
                         body: JSON.stringify(temp),
                         credentials: "include"
                 }).then(res => {
-                        // console.log("POST", res);
+                        console.log("POST", res);
                         return res.json();
                 }).then(res => {
-                        // console.log("POST", res);
+                        console.log("POST2", res);
                         if (res.modifiedCount >= 1) {
                                 navigate(`/App/Orders`);
                                 //  dispatch(userNotification("Carts purchased"))

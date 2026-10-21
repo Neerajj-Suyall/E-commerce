@@ -32,14 +32,14 @@ function Orderhistory() {
 			{/* <div className="home_main" onClick={OrderClick}> */}
 			<div className="home_main">
                 {/* <div>{orderDatas?.length  }</div>S */}
-					{orderDatas?.length >1 &&
+					{orderDatas?.length >=1 &&
 							orderDatas.map((ittr )=>(
                                 <OrderCard order={ittr}  setOrderDatas={setOrderDatas} orderDatas={orderDatas}/>
                             ))
 					}
 
 				{
-                    orderDatas?.length <= 1 &&
+                    orderDatas?.length < 1 &&
 						<div>empty</div>
                         }
 
