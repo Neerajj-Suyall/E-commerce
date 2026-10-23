@@ -96,8 +96,8 @@ const cartOrder = async (req, res) => {
               const options = {
                      // amount : useDbValue.rate * 100, for INR
                      amount: finalResult.reduce(
-                     (total, item) => total + item.price * item.quantity,0),
-                     currency: "USD",
+                     (total, item) => total + item.price * item.quantity * 100,0),
+                     currency: "INR",
                      receipt: `receipt_${Date.now()}`,
                      notes: {userid: id,
                      orderdetail:finalResult,

@@ -88,26 +88,84 @@ function CartSelect({
                         body: JSON.stringify(temp),
                         credentials: "include"
                 }).then(res => {
-                        console.log("POST", res);
                         return res.json();
-                }).then(res => {
-                        console.log("POST2", res);
-                        if (res.modifiedCount >= 1) {
-                                navigate(`/App/Orders`);
-                                //  dispatch(userNotification("Carts purchased"))
-                                toast.success("Carts purchased");
-                                // console.log("selectedAddress= ",  cartDetails);
-                                setCartDetails(cartDetails.reduce((initial, ittr) => {
-                                        if (cartBuy.some(e => e?.productid == ittr?.product_details[0]?._id)) {
-                                                return initial
-                                        }
-                                        return [...initial, ittr]
-                                }, []))
-                                dispatch(deleteBuyCart(cartBuy));
-                        } else {
-                                toast.error("something went wrong");
-                                //       alert("something went wrong");  
-                        }
+                }).then(data => {
+                        // console.log("POST", res);
+                        // let  data =   res.json();
+                        console.log("data", data);
+                        console.log("if else = ",  data.notes.shippingdetail.name);
+
+
+                                if (!data.status =="created" ) {
+      throw new Error(data.message || "Unable to create order");
+    }
+
+    console.log("amount  =",data.amount);
+    console.log("currency  =",data.currency);
+    console.log("name  =",data.notes.shippingdetail.name);
+    console.log("order_id:  =",data.id);
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+
+    script.onload = () => {
+        
+      const options = {
+        key: "rzp_test_Tr2pE994wOvZRU",
+        amount: data.amount,
+        currency: data.currency,
+        name: data.notes.shippingdetail.name,
+        description: "Order Payment",
+        order_id: data.id,
+
+        handler: async function (paymentResponse) {
+          // Send these values to your backend
+          // to verify the payment signature.
+          console.log(paymentResponse);
+        },
+
+        
+        
+
+        theme: {
+          color: "#3399cc",
+        },
+      };
+      
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    };
+
+    script.onerror = () => {
+      alert("Unable to load Razorpay Checkout");
+    };
+
+    document.body.appendChild(script);
+
+
+                // }).then(res => {
+                //         console.log("POST2", res);
+                //         const data = res;
+
+
+
+                        // if (res.modifiedCount >= 1) {
+                        //         navigate(`/App/Orders`);
+                        //         //  dispatch(userNotification("Carts purchased"))
+                        //         toast.success("Carts purchased");
+                        //         // console.log("selectedAddress= ",  cartDetails);
+                        //         setCartDetails(cartDetails.reduce((initial, ittr) => {
+                        //                 if (cartBuy.some(e => e?.productid == ittr?.product_details[0]?._id)) {
+                        //                         return initial
+                        //                 }
+                        //                 return [...initial, ittr]
+                        //         }, []))
+                        //         dispatch(deleteBuyCart(cartBuy));
+                        // } else {
+                        //         toast.error("something went wrong");
+                        //         //       alert("something went wrong");  
+                        // }
 
                 });
         })
@@ -162,6 +220,9 @@ function CartSelect({
 
 
         }, [cartDetails, cartRedux])
+
+
+        
 
 
         return (
