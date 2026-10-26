@@ -34,7 +34,7 @@ const orderitem = async (req, res) => {
        // console.log("req.body", req.body.userdata);
 
        // let result = await Orderlists.insertOne({ userid: id, orderdetail:  productdata  ,shippingdetail: userdata})
-              let result = await Orderlists.insertOne({ userid: id, orderdetail:{...productdata, productid: productdata._id} ,shippingdetail: userdata})
+              let result = await Orderlists.insertOne({ userid: id, orderdetail:{...productdata, productid: productdata?._id} ,shippingdetail: userdata})
 
        console.log("result", result);
 
@@ -68,7 +68,7 @@ const cartOrder = async (req, res) => {
 
        let productids = productdata.map((ittr) => ittr.productid)
 
-       let result = await productdb.find({ _id: { $in: productids } })
+       let result = await productdb.find({ _id: { $in: productids } });
        // console.log("result result result = ",result);
        let finalResult = result.map(e => {
               const value = productdata.find(ittr => e._id == ittr.productid)
@@ -106,7 +106,7 @@ const cartOrder = async (req, res) => {
 
               const razorpayInstance = createRazorpayInstance();
 
-              razorpayInstance.orders.create(options, (err, order) => {
+              const orders =  razorpayInstance.orders.create(options, async(err, order) => {
                      if (err) {
                             console.error("Razorpay Error:", err);
 
@@ -115,9 +115,33 @@ const cartOrder = async (req, res) => {
                                    message: err.error?.description || err.message || "Something went wrong"
                             });
                      }
+
+                     const newOrder = await Orderlists.create({
+                     userid: id,
+                     razorpayOrderId: order.id,
+                     paymentStatus: "pending",
+                     orderStatus: "pending",
+                     orderdetail: finalResult,
+                     shippingdetail: userdata
+                     
+                     });
+                     console.log("res.status(200).json(order); = ", order);
+                     
                       res.status(200).json(order);
-                      return;
+                      return
               });
+              // const newOrder = await Orderlists.create({
+              //        userid: id,
+              //        orderdetail: finalResult ,
+              //        shippingdetail: userdata ,
+              //        razorpayPaymentId: razorpay_payment_id,
+              //        paymentStatus: "paid",
+              //        orderStatus: "confirmed",
+                     
+              //        });
+
+              
+              
        } catch (error) {
               console.error("Order creation failed:", error);
                res.status(500).json({

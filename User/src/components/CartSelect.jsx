@@ -92,18 +92,18 @@ function CartSelect({
                 }).then(data => {
                         // console.log("POST", res);
                         // let  data =   res.json();
-                        console.log("data", data);
-                        console.log("if else = ",  data.notes.shippingdetail.name);
+                        // console.log("data", data);
+                        // console.log("if else = ",  data.notes.shippingdetail.name);
 
 
                                 if (!data.status =="created" ) {
       throw new Error(data.message || "Unable to create order");
     }
 
-    console.log("amount  =",data.amount);
-    console.log("currency  =",data.currency);
-    console.log("name  =",data.notes.shippingdetail.name);
-    console.log("order_id:  =",data.id);
+//     console.log("amount  =",data.amount);
+//     console.log("currency  =",data.currency);
+//     console.log("name  =",data.notes.shippingdetail.name);
+//     console.log("order_id:  =",data.id);
 
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -118,11 +118,45 @@ function CartSelect({
         description: "Order Payment",
         order_id: data.id,
 
+        // handler: async function (paymentResponse) {
+        //   // Send these values to your backend
+        //   // to verify the payment signature.
+        //   console.log(paymentResponse);
+        // },
+
         handler: async function (paymentResponse) {
-          // Send these values to your backend
-          // to verify the payment signature.
-          console.log(paymentResponse);
+  try {
+    const res = await fetch(
+        `${constant.domain}/order/paymentverify`,  
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        credentials: "include",
+        body: JSON.stringify(paymentResponse),
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(
+        data.message || "Payment verification failed"
+      );
+    }
+
+    console.log("Payment verified:", data);
+
+      toast.success("Payment successful!");
+
+    navigate("/App/Orders");
+
+    // Show success message or navigate to your order page.
+  } catch (error) {
+    console.error("Payment verification error:", error);
+  }
+},
 
         
         
