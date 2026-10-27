@@ -56,12 +56,12 @@ function App() {
                 });
         }, [])
 
-        const hideAlert = () => {
-                // console.log("allNotificationEnd");
+        // const hideAlert = () => {
+        //         // console.log("allNotificationEnd");
 
 
-                // dispatch(allNotificationEnd())
-        }
+        //         // dispatch(allNotificationEnd())
+        // }
 
         // useEffect(() => {
         //         (cartRedux.length >= 1) &&

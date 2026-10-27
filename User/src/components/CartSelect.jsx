@@ -96,91 +96,100 @@ function CartSelect({
                         // console.log("if else = ",  data.notes.shippingdetail.name);
 
 
-                                if (!data.status =="created" ) {
-      throw new Error(data.message || "Unable to create order");
-    }
+                        if (!data.status == "created") {
+                                throw new Error(data.message || "Unable to create order");
+                        }
 
-//     console.log("amount  =",data.amount);
-//     console.log("currency  =",data.currency);
-//     console.log("name  =",data.notes.shippingdetail.name);
-//     console.log("order_id:  =",data.id);
+                        //     console.log("amount  =",data.amount);
+                        //     console.log("currency  =",data.currency);
+                        //     console.log("name  =",data.notes.shippingdetail.name);
+                        //     console.log("order_id:  =",data.id);
 
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+                        const script = document.createElement("script");
+                        script.src = "https://checkout.razorpay.com/v1/checkout.js";
 
-    script.onload = () => {
-        
-      const options = {
-        key: "rzp_test_Tr2pE994wOvZRU",
-        amount: data.amount,
-        currency: data.currency,
-        name: data.notes.shippingdetail.name,
-        description: "Order Payment",
-        order_id: data.id,
+                        script.onload = () => {
 
-        // handler: async function (paymentResponse) {
-        //   // Send these values to your backend
-        //   // to verify the payment signature.
-        //   console.log(paymentResponse);
-        // },
+                                const options = {
+                                        key: "rzp_test_Tr2pE994wOvZRU",
+                                        amount: data.amount,
+                                        currency: data.currency,
+                                        name: data.notes.shippingdetail.name,
+                                        description: "Order Payment",
+                                        order_id: data.id,
 
-        handler: async function (paymentResponse) {
-  try {
-    const res = await fetch(
-        `${constant.domain}/order/paymentverify`,  
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(paymentResponse),
-      }
-    );
+                                        // handler: async function (paymentResponse) {
+                                        //   // Send these values to your backend
+                                        //   // to verify the payment signature.
+                                        //   console.log(paymentResponse);
+                                        // },
 
-    const data = await res.json();
+                                        handler: async function (paymentResponse) {
+                                                try {
+                                                        const res = await fetch(
+                                                                `${constant.domain}/order/paymentverify`,
+                                                                {
+                                                                        method: "POST",
+                                                                        headers: {
+                                                                                "Content-Type": "application/json",
+                                                                        },
+                                                                        credentials: "include",
+                                                                        body: JSON.stringify(paymentResponse),
+                                                                }
+                                                        );
 
-    if (!res.ok || !data.success) {
-      throw new Error(
-        data.message || "Payment verification failed"
-      );
-    }
+                                                        const data = await res.json();
 
-    console.log("Payment verified:", data);
+                                                        if (!res.ok || !data.success) {
+                                                                throw new Error(
+                                                                        data.message || "Payment verification failed"
+                                                                );
+                                                        }
 
-      toast.success("Payment successful!");
+                                                        console.log("Payment verified:", data);
 
-    navigate("/App/Orders");
-
-    // Show success message or navigate to your order page.
-  } catch (error) {
-    console.error("Payment verification error:", error);
-  }
-},
-
-        
-        
-
-        theme: {
-          color: "#3399cc",
-        },
-      };
-      
-
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
-    };
-
-    script.onerror = () => {
-      alert("Unable to load Razorpay Checkout");
-    };
-
-    document.body.appendChild(script);
+// console.log("STEP 1: Before toast");
 
 
-                // }).then(res => {
-                //         console.log("POST2", res);
-                //         const data = res;
+                                                        toast.success("Payment successful!");
+                                                        // console.log("STEP 2: Before deleting cart");
+
+                                                        dispatch(deleteBuyCart(cartBuy));
+                                                        // console.log("STEP 3: Before navigation");
+
+                                                        navigate("/App/Orders");
+
+// console.log("STEP 4: Navigation called");
+
+                                                        // Show success message or navigate to your order page.
+                                                } catch (error) {
+                                                        console.error("Payment verification error:", error);
+                                                }
+                                        },
+
+
+
+
+                                        theme: {
+                                                color: "#3399cc",
+                                        },
+                                };
+
+
+                                const razorpay = new window.Razorpay(options);
+                                razorpay.open();
+                        };
+
+                        script.onerror = () => {
+                                alert("Unable to load Razorpay Checkout");
+                        };
+
+                        document.body.appendChild(script);
+
+
+                        // }).then(res => {
+                        //         console.log("POST2", res);
+                        //         const data = res;
 
 
 
@@ -256,7 +265,7 @@ function CartSelect({
         }, [cartDetails, cartRedux])
 
 
-        
+
 
 
         return (
