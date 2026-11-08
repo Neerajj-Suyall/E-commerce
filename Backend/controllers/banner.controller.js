@@ -26,7 +26,17 @@ const UploadBanners = async (req, res) => {
 
         console.log("bannerData:", bannerData); 
 
-        const savedBanners = await Banner.create(bannerData);
+        // const savedBanners = await Banner.create(bannerData);
+        const savedBanners = await Banner.findOneAndUpdate(
+    { bannerType: req.body.bannerType },
+    {
+        $set: bannerData
+    },
+    {
+        new: true,
+        runValidators: true
+    }
+);
 
         return res.status(200).json({
             success: true,
@@ -68,8 +78,32 @@ const getBanners = async (req, res)=>{
 };
 
 
+const AllBanners = async (req, res)=>{
+        try {
+            const bannerimages = await Banner.find().select("-_id -__v");
+            console.log(bannerimages);
+            
+            res.status(200).json(bannerimages).end()
+            return;
+        } catch (error) {
+
+             console.error("Error fetching banners:", error);
+
+         res.status(500).json({
+            message: "Failed to fetch banners",
+            error: error.message
+        }).end();      
+        }
+
+};
+
+
+
+
+
 export {
         UploadBanners,
-        getBanners
+        getBanners,
+        AllBanners
 
 }

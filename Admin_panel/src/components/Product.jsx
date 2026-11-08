@@ -305,9 +305,9 @@ function Product() {
                                                 <div className="w-[140px] border-2 p-2 ">Update</div>
                                         </div>
 
-                                        {/* {datas.length >= 1 && datas.map((ittr, index) => (
+                                        {datas.length >= 1 && datas.map((ittr, index) => (
                                                 <ProductElement ittr={ittr} setDatas={setDatas} count={count == datas.length ? index + 1 : (count - datas.length) + index + 1} />
-                                        ))}  */}
+                                        ))} 
 
                                         <div>
 

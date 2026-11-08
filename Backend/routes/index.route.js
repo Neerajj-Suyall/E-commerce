@@ -6,6 +6,7 @@ import cartRoute from "./cart.route.js";
 import orderRoute from "./order.route.js";
 import reviewRating from "./reviewRating.route.js";
 import adminPanel from "./admin.route.js"
+import { AllBanners } from "../controllers/banner.controller.js";
 import { authLogin } from "../middleware/auth.middleware.js";
 import { authadminLogin } from "../middleware/adminAuth.middleware.js";
 
@@ -18,7 +19,7 @@ router.get("/", (req, res) => { res.end("hello world"); })
 // router.use("/user",authLogin,  userRoute)
 router.use("/user", userRoute)
 router.use("/products", authLogin, productRoute)
-// router.use("/banner", authLogin, bannerRoute)
+router.use("/banner", authLogin, AllBanners)
 router.use("/offers", authLogin, offerRoute)
 router.use("/cart", authLogin, cartRoute)
 router.use("/order", authLogin, orderRoute)

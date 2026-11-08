@@ -11,6 +11,13 @@ import "react-toastify/dist/ReactToastify.css";
 function Home() {
         const [datas, setDatas] = useState([])
         const [banner, setBanner] = useState([])
+        const [currentBanner, setCurrentBanner] = useState(0);
+
+const bannerImages = banner.length > 0
+    ? Object.values(banner[0]).filter(
+        item => typeof item === "string" && item.startsWith("https://")
+    )
+    : [];
         const [count, setCount] = useState(0)
         const cartRedux = useSelector((state) => state.cart);
         const dispatch = useDispatch();
@@ -115,24 +122,37 @@ function Home() {
                 }).then(res => {
                         return res.json();
                 }).then(res => {
+                        console.log("setDatas = ",res)
                         setDatas(res);
                         setCount(count + res.length)
                 });
-
-                fetch(`${constant.domain}/banner/banner`, {
+                 fetch(`${constant.domain}/banner`, {
                         method: "GET",
                         credentials: "include"
                 }).then(res => {
                         return res.json();
                 }).then(res => {
-                        setBanner(res);
-                        console.log("banner = ",banner );
+                        setBanner( Object.values(res));
+                        console.log("banner org = ", res);
+                        // console.log("banner = ",Object.values(res));
                         
                         // setCount(count + res.length)
                 });
 
 
+
         }, [])
+
+        useEffect(() => {
+    if (bannerImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+        setCurrentBanner(prev => (prev + 1) % bannerImages.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+
+}, [bannerImages.length]);
 
 
         // useEffect(() => {
@@ -179,11 +199,62 @@ function Home() {
         return (
                 <>
                         <div className='home_main' onClick={HomeClick}>
+
+                              {/* Banner Slider */}
+{bannerImages.length > 0 && (
+    <div className="relative w-screen flex justify-center items-center overflow-hidden">
+
+        {/* Image */}
+        <img
+            src={bannerImages[currentBanner]}
+            alt={`Banner ${currentBanner + 1}`}
+            className="w-screen h-auto max-h-[80vh] object-contain block"
+        />
+
+        {/* Previous Button */}
+        <button
+            onClick={() => setCurrentBanner(
+                prev => (prev - 1 + bannerImages.length) % bannerImages.length
+            )}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 rounded-full"
+        >
+            ❮
+        </button>
+
+        {/* Next Button */}
+        <button
+            onClick={() => setCurrentBanner(
+                prev => (prev + 1) % bannerImages.length
+            )}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white px-4 py-2 rounded-full"
+        >
+            ❯
+        </button>
+
+        {/* Slider Indicators */}
+        <div className="absolute bottom-4 flex gap-2">
+            {bannerImages.map((item, index) => (
+                <button
+                    key={index}
+                    onClick={() => setCurrentBanner(index)}
+                    className={`w-3 h-3 rounded-full ${
+                        currentBanner === index
+                            ? "bg-white"
+                            : "bg-gray-400"
+                    }`}
+                />
+            ))}
+        </div>
+
+    </div>
+)}
+
+
                                 {/* <div> */}
                                 {(datas?.length >= 1) &&
 
                                         datas.map((ittr, index) => (
-                                                <Card ittr={ittr} imgsrc={ittr.category[0] + (Math.floor(Math.random() * 10) + 1)} cart={findCart(ittr._id)} />
+                                                <Card ittr={ittr} cart={findCart(ittr._id)} />
                                         ))}
                                 {/* </div> */}
 
